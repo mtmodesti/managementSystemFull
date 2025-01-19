@@ -1,0 +1,50 @@
+<div class="wrapper">
+  <form class="formWrapper">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input
+        type="email"
+        matInput
+        [formControl]="emailFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="email@exemplo.com"
+      />
+
+      @if (emailFormControl.hasError('email') &&
+      !emailFormControl.hasError('required')) {
+      <mat-error>E-mail inválido</mat-error>
+      } @if (emailFormControl.hasError('required')) {
+      <mat-error>Email é <strong>obrigatório</strong></mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Senha</mat-label>
+      <input
+        type="password"
+        autocomplete="false"
+        matInput
+        [formControl]="passwordFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="Senha"
+        class="custom-input"
+      />
+
+      @if (emailFormControl.hasError('required')) {
+      <mat-error>Campo obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    <button
+      [ngClass]="{
+        btnActive: !handleLoginButton(),
+        btnDeactivated: handleLoginButton()
+      }"
+      mat-flat-button
+      [disabled]="handleLoginButton()"
+      (click)="handleLogin()"
+    >
+      Login
+    </button>
+  </form>
+</div>

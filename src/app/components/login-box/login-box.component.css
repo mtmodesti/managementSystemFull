@@ -1,0 +1,36 @@
+.wrapper {
+  border-radius: 5px;
+  padding: 5px;
+  .formWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    gap: 8px;
+    box-sizing: border-box;
+    flex-direction: column;
+    height: 250px;
+    width: 350px;
+  }
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.btnActive {
+  background-color: #c07c2b !important;
+  border-radius: 5px;
+  color: white !important;
+}
+
+.btnDeactivated {
+  background-color: lightgray !important;
+  border-radius: 5px;
+  color: white !important;
+}
+
+.checkboxWrapper {
+  width: 100%;
+}
