@@ -8,3 +8,10 @@
   overflow-x: hidden;
   box-sizing: border-box;
 }
+
+.floating-button {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  z-index: 1000;
+}

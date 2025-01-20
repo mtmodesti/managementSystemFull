@@ -123,5 +123,28 @@ table {
   border-spacing: 0;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+form {
+  background-color: #fcf7f0;
+  gap: 12px;
+  border-radius: 5px;
+  border: 2px solid #c07c2b;
+  padding: 12px;
+  width: fit-content;
+  -webkit-box-shadow: 10px 13px 19px -12px rgba(56, 46, 7, 0.78);
+  -moz-box-shadow: 10px 13px 19px -12px rgba(56, 46, 7, 0.78);
+  box-shadow: 10px 13px 19px -12px rgba(56, 46, 7, 0.78);
+}
+
+button[type="submit"]:not([disabled]) {
+  background-color: #c07c2b !important;
+  color: white !important; /* Ajusta a cor do texto, se necessário */
+}

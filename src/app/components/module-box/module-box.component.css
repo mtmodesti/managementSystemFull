@@ -7,7 +7,7 @@
     justify-content: flex-start;
     align-items: center;
     border: 2px solid #c07c2b;
-    background-color: #ffe9cb;
+    background-color: #fcf7f0;
     height: 150px;
     border-radius: 15px;
     -webkit-box-shadow: 10px 13px 19px -12px rgba(56, 46, 7, 0.78);
@@ -35,11 +35,17 @@
       min-width: 200px;
       padding: 6px;
       justify-content: space-evenly;
-      border-radius: 5px;
+      border-radius: 50px;
       background-color: white;
       -webkit-box-shadow: 10px 13px 19px -12px rgba(56, 46, 7, 0.78);
       -moz-box-shadow: 10px 13px 19px -12px rgba(56, 46, 7, 0.78);
       box-shadow: 10px 13px 19px -12px rgba(56, 46, 7, 0.78);
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: scale(1.04);
+      }
+
       span {
         text-align: center;
       }

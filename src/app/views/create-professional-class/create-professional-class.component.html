@@ -1,1 +1,44 @@
-<p>create-professional-class works!</p>
+<div class="wrapper">
+  <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm" class="user-form">
+    <!-- Nome da Classe -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Nome da classe</mat-label>
+      <input
+        matInput
+        type="text"
+        id="className"
+        name="className"
+        ngModel
+        required
+      />
+      <mat-error
+        *ngIf="
+          userForm.controls['className']?.invalid &&
+          userForm.controls['className']?.touched
+        "
+      >
+        Campo obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Botão de Submissão -->
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="userForm.invalid"
+    >
+      Criar Classe
+    </button>
+
+    <!-- Botão flutuante -->
+    <button
+      mat-fab
+      color="primary"
+      class="floating-button"
+      (click)="goToDashboard(userForm); $event.preventDefault()"
+    >
+      <mat-icon>dashboard</mat-icon>
+    </button>
+  </form>
+</div>

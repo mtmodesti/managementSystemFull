@@ -3,4 +3,13 @@
     *ngFor="let module of modules"
     [module]="module"
   ></app-module-box>
+  <!-- Botão flutuante -->
+  <button
+    mat-fab
+    color="primary"
+    class="floating-button"
+    (click)="goToLogin(); $event.preventDefault()"
+  >
+    <mat-icon>login</mat-icon>
+  </button>
 </div>

@@ -1,0 +1,28 @@
+.wrapper {
+  padding: 12px;
+  width: 100vw;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.floating-button {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  z-index: 1000;
+}
+
+@media (max-width: 370px) {
+  form {
+    position: relative;
+    top: 60px;
+  }
+}
