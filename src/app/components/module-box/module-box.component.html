@@ -1,28 +1,16 @@
 <div class="wrapper">
   <div class="moduleSection">
-    <span class="moduleTitle">Módulo administrativo</span>
-    <div class="icon">
-      <span>Criar unidade</span>
+    <span class="moduleTitle">{{ module.moduleTitle }}</span>
+    <div
+      *ngFor="let menu of module.menus"
+      class="icon"
+      (click)="handleClick(menu)"
+    >
+      <span>{{ menu.title }}</span>
       <mat-icon
         aria-hidden="false"
-        aria-label="=home icon"
-        fontIcon="home"
-      ></mat-icon>
-    </div>
-    <div class="icon">
-      <span>Criar classe profissional</span>
-      <mat-icon
-        aria-hidden="false"
-        aria-label="=work icon"
-        fontIcon="work"
-      ></mat-icon>
-    </div>
-    <div class="icon">
-      <span>Criar profissional</span>
-      <mat-icon
-        aria-hidden="false"
-        aria-label="=person icon"
-        fontIcon="person"
+        aria-label="=icon"
+        fontIcon="{{ menu.fontIcon }}"
       ></mat-icon>
     </div>
   </div>

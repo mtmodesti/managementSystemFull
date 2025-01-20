@@ -1,0 +1,26 @@
+{
+  "dashboard": {
+    "modules": [
+      {
+        "moduleTitle": "Módulo administrativo",
+        "menus": [
+          {
+            "fontIcon": "home",
+            "title": "Criar unidade",
+            "url": "unity"
+          },
+          {
+            "fontIcon": "work",
+            "title": "Criar classe profissional",
+            "url": "class"
+          },
+          {
+            "fontIcon": "person",
+            "title": "Criar profissional",
+            "url": "professional"
+          }
+        ]
+      }
+    ]
+  }
+}

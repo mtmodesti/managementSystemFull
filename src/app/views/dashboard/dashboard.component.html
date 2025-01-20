@@ -1,17 +1,6 @@
 <div class="wrapper">
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
-  <app-module-box></app-module-box>
+  <app-module-box
+    *ngFor="let module of modules"
+    [module]="module"
+  ></app-module-box>
 </div>
