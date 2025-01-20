@@ -1,1 +1,154 @@
-<p>create-unity works!</p>
+<div class="wrapper">
+  <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm" class="user-form">
+    <!-- Nome da Unidade -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Nome da Unidade</mat-label>
+      <input
+        matInput
+        type="text"
+        id="unitName"
+        name="unitName"
+        ngModel
+        required
+      />
+      <mat-error
+        *ngIf="
+          userForm.controls['unitName']?.invalid &&
+          userForm.controls['unitName']?.touched
+        "
+      >
+        Campo obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Endereço Completo -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Endereço Completo</mat-label>
+      <input
+        matInput
+        type="text"
+        id="address"
+        name="address"
+        ngModel
+        required
+      />
+      <mat-error
+        *ngIf="
+          userForm.controls['address']?.invalid &&
+          userForm.controls['address']?.touched
+        "
+      >
+        Campo obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <!-- CEP -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Cep</mat-label>
+      <input
+        matInput
+        type="text"
+        id="cep"
+        name="cep"
+        ngModel
+        required
+        minlength="08"
+        maxlength="10"
+        mask="00.000-000"
+      />
+      <mat-error
+        *ngIf="
+          userForm.controls['cep']?.invalid && userForm.controls['cep']?.touched
+        "
+      >
+        Cep inválido
+      </mat-error>
+    </mat-form-field>
+
+    <!-- E-mail -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>E-mail</mat-label>
+      <input
+        matInput
+        type="email"
+        id="email"
+        name="email"
+        ngModel
+        required
+        placeholder="email@email.com"
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$"
+      />
+      <mat-error
+        *ngIf="
+          userForm.controls['email']?.invalid &&
+          userForm.controls['email']?.touched
+        "
+      >
+        Campo inválido
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Telefone de Contato -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Telefone de Contato</mat-label>
+      <input
+        matInput
+        type="text"
+        id="phone"
+        name="phone"
+        ngModel
+        required
+        mask="(00)0000-0000"
+      />
+      <mat-error
+        *ngIf="
+          userForm.controls['phone']?.invalid &&
+          userForm.controls['phone']?.touched
+        "
+      >
+        Telefone inválido
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Responsável -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Responsável</mat-label>
+      <input
+        matInput
+        type="text"
+        id="responsible"
+        name="responsible"
+        ngModel
+        required
+      />
+      <mat-error
+        *ngIf="
+          userForm.controls['responsible']?.invalid &&
+          userForm.controls['responsible']?.touched
+        "
+      >
+        Campo obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Botão de Submissão -->
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="userForm.invalid"
+    >
+      Criar Unidade
+    </button>
+
+    <!-- Botão flutuante -->
+    <button
+      mat-fab
+      color="primary"
+      class="floating-button"
+      (click)="goToDashboard(userForm); $event.preventDefault()"
+    >
+      <mat-icon>dashboard</mat-icon>
+    </button>
+  </form>
+</div>
