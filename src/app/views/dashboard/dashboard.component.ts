@@ -24,10 +24,16 @@ export class DashboardComponent {
   modules: any[] = [];
 
   constructor(private router: Router) {
-    this.modules = dashboardModules.dashboard.modules;
+    this.modules = this.handleLoadModules();
   }
 
   goToLogin(): void {
     this.router.navigate(['/']);
+  }
+
+  // Função que carrega módulos do dashboard de acordo com o perfil
+  // alterar para true || false a chave visible de acordo com o perfil
+  handleLoadModules() {
+    return dashboardModules.dashboard.modules;
   }
 }

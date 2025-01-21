@@ -3,6 +3,7 @@
     "modules": [
       {
         "moduleTitle": "Módulo administrativo",
+        "visible": true,
         "menus": [
           {
             "fontIcon": "home",
@@ -14,6 +15,17 @@
             "title": "Criar classe profissional",
             "url": "class"
           },
+          {
+            "fontIcon": "person",
+            "title": "Criar profissional",
+            "url": "professional"
+          }
+        ]
+      },
+      {
+        "moduleTitle": "Módulo técnico",
+        "visible": true,
+        "menus": [
           {
             "fontIcon": "person",
             "title": "Criar profissional",

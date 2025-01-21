@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login-service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -44,7 +45,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrl: './login-box.component.css',
 })
 export class LoginBoxComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loginService: LoginService) {}
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -57,8 +58,21 @@ export class LoginBoxComponent {
   handleLogin() {
     const email = this.emailFormControl.value;
     const password = this.passwordFormControl.value;
+
     const user = { email, password };
-    this.router.navigate(['/dashboard']);
+
+    this.loginService
+      .login(user.email || '', user.password || '')
+      .then((user) => {
+        if (user) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          console.log('usuário não encontrado');
+        }
+      })
+      .catch((error) => {
+        console.error('Erro ao fazer login:', error);
+      });
   }
 
   handleLoginButton(): boolean {
