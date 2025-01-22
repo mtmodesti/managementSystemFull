@@ -20,7 +20,7 @@
     }
 
     .title {
-      font-size: 82px;
+      font-size: 32px;
       color: #c07c2b;
       font-weight: 500;
     }
@@ -46,7 +46,7 @@
     }
     .loginWrapper {
       display: flex;
-      width: 80%;
+
       justify-content: space-between;
       div {
         position: relative;
@@ -63,5 +63,22 @@
         }
       }
     }
+  }
+}
+
+/* Estilo responsivo para telas menores que 950px */
+@media (max-width: 950px) {
+  .rightSection {
+    width: 100vw;
+  }
+
+  .loginWrapper {
+    flex-direction: column;
+  }
+
+  img,
+  h1,
+  .leftSection {
+    display: none !important; /* Oculta a seção esquerda */
   }
 }

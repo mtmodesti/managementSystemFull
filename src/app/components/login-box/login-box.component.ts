@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login-service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Utils } from '../../utils/utils';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -40,12 +42,18 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatButtonModule,
     CommonModule,
     MatCheckboxModule,
+
+    MatSnackBarModule,
   ],
   templateUrl: './login-box.component.html',
   styleUrl: './login-box.component.css',
 })
 export class LoginBoxComponent {
-  constructor(private router: Router, private loginService: LoginService) {}
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private snackBar: MatSnackBar
+  ) {}
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -66,12 +74,16 @@ export class LoginBoxComponent {
       .then((user) => {
         if (user) {
           this.router.navigate(['/dashboard']);
+          Utils.showToast(this.snackBar, 'Login realizado com sucesso!');
         } else {
-          console.log('usuário não encontrado');
+          Utils.showToast(
+            this.snackBar,
+            'Usuário não encontrado. Confira as credenciais ou entre em contato com o suporte.'
+          );
         }
       })
       .catch((error) => {
-        console.error('Erro ao fazer login:', error);
+        Utils.showToast(this.snackBar, 'Erro ao fazer login!');
       });
   }
 
