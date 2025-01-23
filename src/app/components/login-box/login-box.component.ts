@@ -69,6 +69,25 @@ export class LoginBoxComponent {
 
     const user = { email, password };
 
+    // this.loginService
+    //   .createUser({
+    //     email,
+    //     password,
+    //   })
+    //   .then((res) => {
+    //     if (res) {
+    //       Utils.showToast(this.snackBar, 'Usuário criado com sucesso!!');
+    //     } else {
+    //       Utils.showToast(this.snackBar, 'E-mail já registrado!');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     Utils.showToast(
+    //       this.snackBar,
+    //       'Erro ao criar usuário. Contate o suporte!'
+    //     );
+    //   });
+
     this.loginService
       .login(user.email || '', user.password || '')
       .then((user) => {
