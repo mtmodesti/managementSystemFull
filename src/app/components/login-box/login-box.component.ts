@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login-service';
+import { Services } from '../../services/services';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Utils } from '../../utils/utils';
 
@@ -51,7 +51,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LoginBoxComponent {
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    private services: Services,
     private snackBar: MatSnackBar
   ) {}
   emailFormControl = new FormControl('', [
@@ -69,26 +69,7 @@ export class LoginBoxComponent {
 
     const user = { email, password };
 
-    // this.loginService
-    //   .createUser({
-    //     email,
-    //     password,
-    //   })
-    //   .then((res) => {
-    //     if (res) {
-    //       Utils.showToast(this.snackBar, 'Usuário criado com sucesso!!');
-    //     } else {
-    //       Utils.showToast(this.snackBar, 'E-mail já registrado!');
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     Utils.showToast(
-    //       this.snackBar,
-    //       'Erro ao criar usuário. Contate o suporte!'
-    //     );
-    //   });
-
-    this.loginService
+    this.services
       .login(user.email || '', user.password || '')
       .then((user) => {
         if (user) {

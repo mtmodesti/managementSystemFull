@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { environment } from '../environments/environments';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
-import * as bcrypt from 'bcryptjs'; // Importe o bcrypt
+import * as bcrypt from 'bcryptjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class Services {
   private auth;
   private db;
 
@@ -46,7 +46,7 @@ export class LoginService {
     }
 
     try {
-      const hashedPassword = await bcrypt.hash(user.password, 10); // O 10 é o número de "salt rounds"
+      const hashedPassword = await bcrypt.hash(user.password, 10);
       await addDoc(usersCollection, {
         email: user.email,
         password: hashedPassword,
@@ -54,6 +54,42 @@ export class LoginService {
       return user;
     } catch (error) {
       return false;
+    }
+  }
+
+  async createUnity(data: any) {
+    try {
+      const unitsCollection = collection(this.db, 'units');
+      const unitsSnapshot = await getDocs(unitsCollection);
+      const unitsList = unitsSnapshot.docs.map((doc) => doc.data());
+
+      const isEmailAlreadyRegistered = unitsList.some(
+        (existingUnit: any) => existingUnit.email === data.email
+      );
+
+      if (isEmailAlreadyRegistered) {
+        return false;
+      }
+
+      await addDoc(unitsCollection, data);
+      return data;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async getUnits() {
+    try {
+      const unitsCollection = collection(this.db, 'units');
+      const unitsSnapshot = await getDocs(unitsCollection);
+      const unitsList = unitsSnapshot.docs.map((doc) => ({
+        id: doc.id, // Inclui o ID do documento, caso necessário
+        ...doc.data(), // Inclui os dados do documento
+      }));
+      return unitsList;
+    } catch (error) {
+      console.error('Erro ao buscar unidades:', error);
+      return []; // Retorna um array vazio em caso de erro
     }
   }
 }

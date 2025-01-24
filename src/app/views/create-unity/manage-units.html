@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <mat-tab-group (selectedIndexChange)="onTabChange($event)">
+    <mat-tab label="Criar unidade">
+      <app-create-unity></app-create-unity>
+    </mat-tab>
+    <mat-tab label="Listar unidades">
+      <app-get-units [activeTab]="activatedTab"></app-get-units>
+    </mat-tab>
+    <mat-tab label="Editar unidades">
+      <app-edit-units></app-edit-units>
+    </mat-tab>
+    <mat-tab label="Remover unidades">
+      <app-delete-units></app-delete-units>
+    </mat-tab>
+  </mat-tab-group>
+  <!-- Botão flutuante -->
+  <button
+    mat-fab
+    color="primary"
+    class="floating-button"
+    (click)="goToDashboard(); $event.preventDefault()"
+  >
+    <mat-icon>dashboard</mat-icon>
+  </button>
+</div>
