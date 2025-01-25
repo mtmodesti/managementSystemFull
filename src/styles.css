@@ -158,3 +158,32 @@ td {
   text-align: center;
   vertical-align: middle;
 }
+
+/* Estiliza a barra de rolagem */
+::-webkit-scrollbar {
+  width: 8px; /* Define a largura da barra de rolagem */
+  height: 8px; /* Define a altura da barra de rolagem para barras horizontais */
+}
+
+/* Estiliza o "polegar" da barra de rolagem (a parte que se move) */
+::-webkit-scrollbar-thumb {
+  background-color: #1a237e; /* Azul-marinho */
+  border-radius: 10px; /* Cantos arredondados */
+}
+
+/* Estiliza o fundo da barra de rolagem */
+::-webkit-scrollbar-track {
+  background: #f4f4f4; /* Fundo cinza claro */
+  border-radius: 10px; /* Cantos arredondados */
+}
+
+/* Para navegadores que não suportam WebKit (fallback opcional) */
+.scrollbar {
+  scrollbar-color: #1a237e #f4f4f4; /* Cor do polegar e do fundo */
+  scrollbar-width: thin; /* Define a largura como fina */
+}
+
+/* Centraliza o texto dos títulos horizontal e verticalmente */
+.mat-mdc-table .mat-mdc-header-cell {
+  text-align: center; /* Centraliza o texto (fallback para navegadores mais antigos) */
+}

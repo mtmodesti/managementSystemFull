@@ -1,15 +1,16 @@
 <div class="wrapper">
-  <mat-form-field appearance="outline" class="form-group">
-    <mat-label>Selecione a Unidade</mat-label>
-    <mat-select [(value)]="selectedUnit">
-      <mat-option *ngFor="let unit of units" [value]="unit">
-        {{ unit.unitName }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="left-side">
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Selecione a Unidade</mat-label>
+      <mat-select [(value)]="selectedUnit">
+        <mat-option *ngFor="let unit of units" [value]="unit">
+          {{ unit.unitName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <div>
-    <!-- Passando selectedUnit como um array para o componente DynamicTable -->
+  <div class="table-wrapper">
     <app-dynamic-table
       [tableDataSource]="selectedUnit ? [selectedUnit] : []"
     ></app-dynamic-table>

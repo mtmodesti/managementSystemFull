@@ -40,4 +40,9 @@ export class DynamicTableComponent implements OnInit {
       );
     }
   }
+
+  // Método para lidar com alterações nas células
+  onCellValueChange(element: any, column: string) {
+    console.log(`Valor atualizado na coluna "${column}":`, element[column]);
+  }
 }
