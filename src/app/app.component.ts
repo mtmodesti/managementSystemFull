@@ -11,14 +11,5 @@ import { getAnalytics } from 'firebase/analytics';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  //  app = initializeApp(environment.firebaseConfig);
-  // analytics = getAnalytics(this.app);
-
-  constructor() {
-    // if (this.app) {
-    // //  console.log('Firebase foi inicializado com sucesso:', this.app);
-    // } else {
-    //  // console.error('Erro ao inicializar o Firebase');
-    // }
-  }
+  constructor() {}
 }

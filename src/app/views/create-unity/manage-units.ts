@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,8 +8,6 @@ import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CreateUnityComponent } from '../../components/create-unity/create-unity.component';
 import { GetUnitsComponent } from '../../components/get-units/get-units.component';
-import { DeleteUnitsComponent } from '../../components/delete-units/delete-units.component';
-import { EditUnitsComponent } from '../../components/edit-units/edit-units.component';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -17,8 +15,6 @@ import { MatIcon } from '@angular/material/icon';
   standalone: true,
   imports: [
     CommonModule,
-    EditUnitsComponent,
-    DeleteUnitsComponent,
     FormsModule,
     MatButtonModule,
     MatTabsModule,
@@ -41,12 +37,17 @@ export class ManageUnits {
   ];
   @Output() tabChanged = new EventEmitter<string>();
 
+  @ViewChild('manageUnitsChild') manageUnitsChild?: GetUnitsComponent;
+
   constructor(private router: Router) {}
 
   onTabChange(index: number): void {
     const selectedTab = this.tabNames[index];
     this.tabChanged.emit(selectedTab);
     this.activatedTab = index;
+    if (this.manageUnitsChild && selectedTab === 'Listar unidades') {
+      this.manageUnitsChild.selectedUnit = null;
+    }
   }
 
   goToDashboard(): void {

@@ -1,0 +1,13 @@
+{
+  "columns": [
+    {
+      "columnTitle": "Name"
+    },
+    {
+      "columnTitle": "Idade"
+    },
+    {
+      "columnTitle": "Sexo"
+    }
+  ]
+}

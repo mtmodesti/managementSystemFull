@@ -24,9 +24,7 @@ import { Router } from '@angular/router';
 export class CreateProfessionalClassComponent {
   constructor(private router: Router) {}
 
-  onSubmit(userForm: any): void {
-    console.log('Form Values:', userForm.value);
-  }
+  onSubmit(userForm: any): void {}
   goToDashboard(userForm: any): void {
     userForm.reset();
     this.router.navigate(['/dashboard']);

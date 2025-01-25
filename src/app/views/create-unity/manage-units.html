@@ -4,14 +4,17 @@
       <app-create-unity></app-create-unity>
     </mat-tab>
     <mat-tab label="Listar unidades">
-      <app-get-units [activeTab]="activatedTab"></app-get-units>
+      <app-get-units
+        #manageUnitsChild
+        [activeTab]="activatedTab"
+      ></app-get-units>
     </mat-tab>
-    <mat-tab label="Editar unidades">
+    <!-- <mat-tab label="Editar unidades">
       <app-edit-units></app-edit-units>
     </mat-tab>
     <mat-tab label="Remover unidades">
       <app-delete-units></app-delete-units>
-    </mat-tab>
+    </mat-tab> -->
   </mat-tab-group>
   <!-- Botão flutuante -->
   <button

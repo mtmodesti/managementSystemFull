@@ -8,9 +8,10 @@
     </mat-select>
   </mat-form-field>
 
-  <div *ngIf="selectedUnit">
-    <p>
-      Você selecionou: {{ selectedUnit.unitName }} - mostrar tudo da unit aqui
-    </p>
+  <div>
+    <!-- Passando selectedUnit como um array para o componente DynamicTable -->
+    <app-dynamic-table
+      [tableDataSource]="selectedUnit ? [selectedUnit] : []"
+    ></app-dynamic-table>
   </div>
 </div>

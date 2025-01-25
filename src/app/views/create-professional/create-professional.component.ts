@@ -31,7 +31,5 @@ export class CreateProfessionalComponent {
     this.router.navigate(['/dashboard']);
   }
 
-  onSubmit(userForm: any): void {
-    console.log('Form Values:', userForm.value);
-  }
+  onSubmit(userForm: any): void {}
 }

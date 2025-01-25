@@ -148,3 +148,13 @@ button[type="submit"]:not([disabled]) {
   background-color: #c07c2b !important;
   color: white !important; /* Ajusta a cor do texto, se necessário */
 }
+
+th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
