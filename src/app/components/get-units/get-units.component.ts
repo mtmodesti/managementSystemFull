@@ -39,6 +39,10 @@ export class GetUnitsComponent implements AfterViewInit {
   @ViewChild('dynamicTableComponent')
   dynamicTableComponent!: DynamicTableComponent;
   unitsTable = getUnitsTable;
+  servicesOptions: any[] = [];
+  dynamicColumns = {
+    service: 'name',
+  };
 
   @Input() activeTab: number = 0;
   isEditable = false;
@@ -51,33 +55,24 @@ export class GetUnitsComponent implements AfterViewInit {
 
   set selectedUnit(value: any) {
     if (this._selectedUnit !== value) {
-      // Agora, ao invés de passar um único objeto, passamos o mesmo objeto duas vezes
       this._selectedUnit = value;
-      console.log(this._selectedUnit);
-
-      // Passando o objeto selecionado duas vezes para o DynamicTableComponent
       if (this.dynamicTableComponent) {
         this.dynamicTableComponent.tableDataSource = [this._selectedUnit];
-        console.log(this.dynamicTableComponent.tableDataSource);
       }
     }
   }
   @Output() dataChanged = new EventEmitter<any[]>();
   constructor(private services: Services, private snackBar: MatSnackBar) {}
 
-  onValueChange(element: any, column: string) {
-    console.log('Valor alterado:', element, column, element[column]);
-    // this.dataChanged.emit(this.tableDataSource); // Envia os dados alterados de volta para o componente pai
-  }
+  onValueChange(element: any, column: string) {}
 
-  ngAfterViewInit(): void {
-    console.log('A View foi inicializada');
-  }
+  ngAfterViewInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeTab'] && changes['activeTab'].currentValue) {
       if (this.activeTab === 1) {
         this.handleGetUnits();
+        this.handleGetServices();
       }
     }
   }
@@ -107,12 +102,32 @@ export class GetUnitsComponent implements AfterViewInit {
     return Array.isArray(value) ? value.join(', ') : value.toString();
   }
 
-  removeUnit(id: string): void {
-    console.log(`Deletar a unidade de ID ${id}`);
-  }
+  removeUnit(id: string): void {}
 
   onTableDataChanged(updatedData: any[]) {
-    console.log('Dados atualizados:', updatedData);
-    this.selectedUnit = updatedData; // Atualiza a unidade selecionada com os dados modificados
+    this.selectedUnit = updatedData;
+  }
+
+  handleGetServices() {
+    this.services
+      .getServices()
+      .then((res) => {
+        this.servicesOptions = res;
+      })
+      .catch((err) => {
+        this.servicesOptions = [];
+        Utils.showToast(
+          this.snackBar,
+          'Erro ao buscar serviços. Contate o suporte'
+        );
+      });
+  }
+
+  enableSelectEmitter(event: boolean) {
+    Utils.enableSelectForDynamicTable(
+      this.dynamicTableComponent,
+      'service',
+      this.servicesOptions
+    );
   }
 }

@@ -131,6 +131,25 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- Serviço -->
+
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Serviço</mat-label>
+      <mat-select id="service" name="service" ngModel required>
+        <mat-option *ngFor="let service of servicesOptions" [value]="service">
+          {{ service.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          userForm.controls['service']?.invalid &&
+          userForm.controls['service']?.touched
+        "
+      >
+        Campo obrigatório
+      </mat-error>
+    </mat-form-field>
+
     <!-- Botão de Submissão -->
     <button
       mat-raised-button

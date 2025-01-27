@@ -12,6 +12,9 @@
 
   <div class="table-wrapper">
     <app-dynamic-table
+      [dynamicColumns]="dynamicColumns"
+      #dynamicTableComponent
+      (enableSelectEmitter)="enableSelectEmitter($event)"
       [tableDataSource]="selectedUnit ? [selectedUnit] : []"
     ></app-dynamic-table>
   </div>

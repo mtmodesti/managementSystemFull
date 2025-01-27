@@ -1,5 +1,6 @@
-<!-- dynamic-table.component.html -->
 <div class="wrapper">
+  <div *ngIf="tableDataSource.length > 0" class="header">header</div>
+
   <table
     *ngIf="tableDataSource.length > 0"
     mat-table
@@ -13,13 +14,38 @@
     >
       <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
       <td mat-cell *matCellDef="let element">
-        <mat-form-field>
-          <input
-            matInput
-            [(ngModel)]="element[column]"
-            (ngModelChange)="onCellValueChange(element, column)"
-          />
+        <!-- Verifica se é um campo editável -->
+        <mat-form-field
+          *ngIf="element[column + 'Editable'] === true; else readOnly"
+        >
+          <!-- Verifica se o campo é um 'select' -->
+          <ng-container *ngIf="element[column + 'Select']; else textInput">
+            <mat-select
+              #matSelectViewChild
+              [(value)]="element[column]"
+              (selectionChange)="onCellValueChange(element, column)"
+            >
+              <mat-option
+                *ngFor="let option of element[column + 'SelectOptions']"
+                [value]="option"
+              >
+                {{ formatOptionLabelShow(option) }}
+              </mat-option>
+            </mat-select>
+          </ng-container>
+          <!-- Campo de entrada de texto -->
+          <ng-template #textInput>
+            <input
+              matInput
+              [(ngModel)]="element[column]"
+              (ngModelChange)="onCellValueChange(element, column)"
+            />
+          </ng-template>
         </mat-form-field>
+        <!-- Campo somente leitura -->
+        <ng-template #readOnly>
+          <span>{{ formatReadOnlyText(element, column) }}</span>
+        </ng-template>
       </td>
     </ng-container>
 
@@ -29,6 +55,17 @@
   </table>
 
   <div *ngIf="tableDataSource.length === 0">
-    <p>Não há dados para exibir.</p>
+    <div class="empty-state">
+      <p>Não há dados para exibir.</p>
+    </div>
+  </div>
+
+  <div class="footer" *ngIf="tableDataSource.length > 0">
+    <button mat-flat-button color="primary" (click)="toggleEdition()">
+      {{ isEditing ? "Desabilitar Edição" : "Habilitar Edição" }}
+    </button>
+    <button mat-flat-button color="primary" (click)="enableSelectForColumn()">
+      tes Edição
+    </button>
   </div>
 </div>

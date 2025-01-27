@@ -83,13 +83,28 @@ export class Services {
       const unitsCollection = collection(this.db, 'units');
       const unitsSnapshot = await getDocs(unitsCollection);
       const unitsList = unitsSnapshot.docs.map((doc) => ({
-        id: doc.id, // Inclui o ID do documento, caso necessário
-        ...doc.data(), // Inclui os dados do documento
+        id: doc.id,
+        ...doc.data(),
       }));
       return unitsList;
     } catch (error) {
       console.error('Erro ao buscar unidades:', error);
-      return []; // Retorna um array vazio em caso de erro
+      return [];
+    }
+  }
+
+  async getServices() {
+    try {
+      const servicesColeection = collection(this.db, 'services');
+      const servicesSnapshot = await getDocs(servicesColeection);
+      const servicesList = servicesSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return servicesList;
+    } catch (error) {
+      console.error('Erro ao buscar serviços:', error);
+      return [];
     }
   }
 }
