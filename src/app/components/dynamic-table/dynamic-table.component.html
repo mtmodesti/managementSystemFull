@@ -1,71 +1,131 @@
 <div class="wrapper">
-  <div *ngIf="tableDataSource.length > 0" class="header">header</div>
-
-  <table
-    *ngIf="tableDataSource.length > 0"
-    mat-table
-    [dataSource]="tableDataSource"
-    class="mat-elevation-z8"
-  >
-    <!-- Colunas Dinâmicas -->
-    <ng-container
-      *ngFor="let column of displayedColumns"
-      [matColumnDef]="column"
-    >
-      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
-      <td mat-cell *matCellDef="let element">
-        <!-- Verifica se é um campo editável -->
-        <mat-form-field
-          *ngIf="element[column + 'Editable'] === true; else readOnly"
-        >
-          <!-- Verifica se o campo é um 'select' -->
-          <ng-container *ngIf="element[column + 'Select']; else textInput">
-            <mat-select
-              #matSelectViewChild
-              [(value)]="element[column]"
-              (selectionChange)="onCellValueChange(element, column)"
-            >
-              <mat-option
-                *ngFor="let option of element[column + 'SelectOptions']"
-                [value]="option"
-              >
-                {{ formatOptionLabelShow(option) }}
-              </mat-option>
-            </mat-select>
-          </ng-container>
-          <!-- Campo de entrada de texto -->
-          <ng-template #textInput>
-            <input
-              matInput
-              [(ngModel)]="element[column]"
-              (ngModelChange)="onCellValueChange(element, column)"
-            />
-          </ng-template>
-        </mat-form-field>
-        <!-- Campo somente leitura -->
-        <ng-template #readOnly>
-          <span>{{ formatReadOnlyText(element, column) }}</span>
-        </ng-template>
-      </td>
-    </ng-container>
-
-    <!-- Cabeçalhos -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-
-  <div *ngIf="tableDataSource.length === 0">
-    <div class="empty-state">
-      <p>Não há dados para exibir.</p>
-    </div>
+  <div *ngIf="tableDataSource.length > 0" class="header">
+    <span class="spanTitle">
+      {{ tableHeader }}
+      <mat-icon
+        *ngIf="changedDataAlert"
+        matTooltip="Existem dados não salvos nesta tabela"
+        color="primary"
+        >info</mat-icon
+      >
+    </span>
   </div>
 
+  <!-- Tabela -->
+  <div class="table-container">
+    <table
+      *ngIf="tableDataSource.length > 0"
+      mat-table
+      [dataSource]="tableDataSource"
+      class="mat-elevation-z8"
+    >
+      <!-- Colunas Dinâmicas -->
+      <ng-container
+        *ngFor="let column of displayedColumns"
+        [matColumnDef]="column"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+
+        <td mat-cell *matCellDef="let element">
+          <ng-container
+            *ngIf="
+              isEditing && isString(element[column]) && column !== 'id';
+              else readMode
+            "
+          >
+            <!-- Input do tipo texto -->
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                [(ngModel)]="element[column]"
+                (ngModelChange)="onDataChange(element)"
+              />
+            </mat-form-field>
+          </ng-container>
+
+          <ng-template #readMode>
+            <ng-container *ngIf="isObject(element[column]); else textMode">
+              <ng-container *ngIf="isEditing; else showText">
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    [(ngModel)]="element[column]"
+                    (selectionChange)="onDataChange(element)"
+                  >
+                    <mat-option
+                      *ngFor="let option of element[column + 'Options']"
+                      [value]="option"
+                    >
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </ng-container>
+              <ng-template #showText>
+                <span>{{
+                  element[column]?.name || "Dado não encontrado"
+                }}</span>
+              </ng-template>
+            </ng-container>
+
+            <ng-template #textMode>
+              <span>{{ handleText(element, column) }}</span>
+            </ng-template>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Coluna de Ações -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            *ngIf="hasActions"
+            mat-icon-button
+            color="warn"
+            (click)="deleteRow(element)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button
+            class="locked"
+            *ngIf="!hasActions"
+            mat-icon-button
+            color="warn"
+          >
+            <mat-icon>lock</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Cabeçalhos -->
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns.concat(['actions'])"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns.concat(['actions'])"
+      ></tr>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="tableDataSource.length === 0" class="empty-state">
+    <p>Não há dados para exibir.</p>
+  </div>
+
+  <!-- Footer -->
   <div class="footer" *ngIf="tableDataSource.length > 0">
     <button mat-flat-button color="primary" (click)="toggleEdition()">
       {{ isEditing ? "Desabilitar Edição" : "Habilitar Edição" }}
     </button>
-    <button mat-flat-button color="primary" (click)="enableSelectForColumn()">
-      tes Edição
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="saveChanges()"
+      *ngIf="isEditing && changedDataAlert"
+    >
+      Salvar Alterações
     </button>
   </div>
 </div>

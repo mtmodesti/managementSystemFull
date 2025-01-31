@@ -12,18 +12,18 @@ export class Utils {
     });
   }
 
-  static enableSelectForDynamicTable(
-    table: DynamicTableComponent,
-    column: string,
-    options: any[]
-  ) {
-    table.tableDataSource = table.tableDataSource.map((el) => {
-      el[`${column}Select`] = true;
-      el[`${column}SelectOptions`] = options;
-      console.log(el);
-      console.log(column);
-      setTimeout(() => {}, 10);
-      return el;
-    });
-  }
+  // static enableSelectForDynamicTable(
+  //   table: DynamicTableComponent,
+  //   column: string,
+  //   options: any[]
+  // ) {
+  //   table.tableDataSource = table.tableDataSource.map((el) => {
+  //     el[`${column}Select`] = true;
+  //     el[`${column}SelectOptions`] = options;
+  //     // Certifique-se de que `el[column]` seja o objeto completo correspondente a uma das opções
+  //     el[column] =
+  //       options.find((option) => option.id === el[column]?.id) || null;
+  //     return el;
+  //   });
+  // }
 }

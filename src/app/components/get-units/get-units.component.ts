@@ -1,5 +1,7 @@
 import {
+  AfterContentChecked,
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -7,6 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -19,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { DynamicTableComponent } from '../dynamic-table/dynamic-table.component';
 import getUnitsTable from './units-table.json';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-get-units',
@@ -28,6 +32,7 @@ import getUnitsTable from './units-table.json';
     MatInputModule,
     FormsModule,
     MatButtonModule,
+    MatDialogModule,
     MatSelectModule,
     CommonModule,
     DynamicTableComponent,
@@ -35,7 +40,7 @@ import getUnitsTable from './units-table.json';
   templateUrl: './get-units.component.html',
   styleUrl: './get-units.component.css',
 })
-export class GetUnitsComponent implements AfterViewInit {
+export class GetUnitsComponent {
   @ViewChild('dynamicTableComponent')
   dynamicTableComponent!: DynamicTableComponent;
   unitsTable = getUnitsTable;
@@ -53,20 +58,19 @@ export class GetUnitsComponent implements AfterViewInit {
     return this._selectedUnit;
   }
 
-  set selectedUnit(value: any) {
-    if (this._selectedUnit !== value) {
-      this._selectedUnit = value;
-      if (this.dynamicTableComponent) {
-        this.dynamicTableComponent.tableDataSource = [this._selectedUnit];
-      }
-    }
-  }
+  selectColumns = {
+    service: [],
+  };
+
   @Output() dataChanged = new EventEmitter<any[]>();
-  constructor(private services: Services, private snackBar: MatSnackBar) {}
+  constructor(
+    private services: Services,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   onValueChange(element: any, column: string) {}
-
-  ngAfterViewInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeTab'] && changes['activeTab'].currentValue) {
@@ -82,6 +86,8 @@ export class GetUnitsComponent implements AfterViewInit {
       .getUnits()
       .then((res) => {
         this.units = res;
+        console.log(res);
+        this.dynamicTableComponent.updateTableDataSource(res);
       })
       .catch((err) => {
         this.units = [];
@@ -104,15 +110,12 @@ export class GetUnitsComponent implements AfterViewInit {
 
   removeUnit(id: string): void {}
 
-  onTableDataChanged(updatedData: any[]) {
-    this.selectedUnit = updatedData;
-  }
-
   handleGetServices() {
     this.services
       .getServices()
       .then((res) => {
         this.servicesOptions = res;
+        this.dynamicTableComponent.handleColumnOptions('service', res);
       })
       .catch((err) => {
         this.servicesOptions = [];
@@ -123,11 +126,29 @@ export class GetUnitsComponent implements AfterViewInit {
       });
   }
 
-  enableSelectEmitter(event: boolean) {
-    Utils.enableSelectForDynamicTable(
-      this.dynamicTableComponent,
-      'service',
-      this.servicesOptions
-    );
+  // enableSelectEmitter(event: boolean) {
+  //   Utils.enableSelectForDynamicTable(
+  //     this.dynamicTableComponent,
+  //     'service',
+  //     this.servicesOptions
+  //   );
+  // }
+
+  deleteEmitter(event: any) {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      width: '400px',
+      data: {
+        unit: event,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.services.deleteUnit(result.unit.id);
+        Utils.showToast(this.snackBar, 'Unidade removida com sucesso!');
+        this.handleGetUnits();
+        //  this.dynamicTableComponent.updateTableData([]);
+      }
+    });
   }
 }

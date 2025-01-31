@@ -1,5 +1,5 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +29,7 @@ import { MatSelect } from '@angular/material/select';
   styleUrl: './create-unity.component.css',
 })
 export class CreateUnityComponent {
+  @ViewChild('userForm') userForm!: NgForm;
   servicesOptions: any = [];
   @Input() activeTab: number = 0;
   serviceValue = null;
@@ -77,6 +78,9 @@ export class CreateUnityComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeTab'] && changes['activeTab'].currentValue === 0) {
       this.handleGetServices();
+      if (this.userForm) {
+        this.userForm.resetForm();
+      }
     }
   }
 }

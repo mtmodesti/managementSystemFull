@@ -45,9 +45,6 @@ export class ManageUnits {
     const selectedTab = this.tabNames[index];
     this.tabChanged.emit(selectedTab);
     this.activatedTab = index;
-    if (this.manageUnitsChild && selectedTab === 'Listar unidades') {
-      this.manageUnitsChild.selectedUnit = null;
-    }
   }
 
   goToDashboard(): void {

@@ -1,26 +1,34 @@
 .wrapper {
-  border: 1.5px solid black;
-  padding: 5px;
-  border-radius: 5px;
+  border: 1.5px solid lightgray;
+  border-radius: 8px;
   width: 100%;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  flex-direction: column;
+  overflow-x: auto; /* Atualizado para melhorar a responsividade horizontal */
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+
   .header {
-    height: 42px;
+    height: 48px;
     padding: 8px;
     display: flex;
-    justify-content: center;
     align-items: center;
+
+    .spanTitle {
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .empty-state {
-    width: 310px;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 250px;
+    font-style: italic;
+    color: #757575;
   }
 
   .footer {
@@ -28,16 +36,49 @@
     align-items: center;
     height: 50px;
     gap: 12px;
+    padding-top: 8px;
+  }
+
+  /* Ajustes para a tabela */
+  table {
+    width: 100%; /* Garante que a tabela ocupe o espaço disponível */
+    border-collapse: collapse; /* Remove espaçamentos entre células */
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap; /* Impede a quebra de texto */
+    overflow: hidden; /* Garante que o texto fora do limite seja escondido */
+    text-overflow: ellipsis; /* Mostra reticências para texto longo */
+    border: 1px solid lightgray;
+  }
+
+  th {
+    background-color: #e0e0e0; /* Fundo para os cabeçalhos */
+    font-weight: bold;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1; /* Realce da linha ao passar o mouse */
+  }
+
+  .locked {
+    cursor: not-allowed;
+  }
+
+  /* Ajustes responsivos */
+  @media (max-width: 768px) {
+    .footer {
+      flex-direction: column; /* Empilha os botões no modo mobile */
+      gap: 8px;
+    }
   }
 }
 
-/* ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+::ng-deep .mat-mdc-form-field-subscript-wrapper,
+.mat-mdc-form-field-bottom-align::before {
   display: none;
-} */
-.error {
-  border-color: red;
-}
-
-.mat-form-field.mat-form-field-invalid .mat-input-element {
-  border-color: red;
 }

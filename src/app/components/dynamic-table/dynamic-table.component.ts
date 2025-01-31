@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -12,17 +13,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelect } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatOption } from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-dynamic-table',
   standalone: true,
   imports: [
     CommonModule,
-    MatOption,
+    MatIcon,
     MatTableModule,
-    MatSelect,
+    MatOption,
+    MatSelectModule,
+    MatTooltipModule,
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
@@ -31,116 +36,97 @@ import { MatOption } from '@angular/material/select';
   templateUrl: './dynamic-table.component.html',
   styleUrls: ['./dynamic-table.component.css'],
 })
-export class DynamicTableComponent implements OnInit {
-  @Input() tableDataSource: any[] = []; // Dados da tabela
-  @Input() dynamicColumns: any = {}; // Dados da tabela
+export class DynamicTableComponent {
+  private originalTableData: any[] = [];
+  @Input() displayedColumns: any[] = [];
+  @Input() tableHeader: string = '';
+  @Input() hasActions = true;
+  @Input() selectColumns: any = {};
+  @Input() tableDataSource: any[] = [];
+  isEditing = false;
+  changedDataAlert = false;
+  optionsList = [{ name: 'option1' }, { name: 'option2' }];
 
-  displayedColumns: string[] = []; // Armazena as colunas dinâmicas
-  isEditing: boolean = false;
-  @Output() enableSelectEmitter = new EventEmitter<boolean>();
-  @ViewChild('matSelectViewChild', { static: false })
-  matSelectViewChild!: MatSelect;
-
-  ngOnInit() {
-    // Se houver dados no array tableDataSource
-    if (this.tableDataSource.length > 0) {
-      // Identifica as chaves do primeiro objeto como as colunas da tabela
-      this.displayedColumns = Object.keys(this.tableDataSource[0]);
-    }
+  deleteRow(element: any): void {
+    console.log('Linha deletada:', element);
   }
 
-  ngOnChanges() {
-    if (this.tableDataSource.length > 0) {
-      // Atualiza as colunas caso os dados mudem
-      this.displayedColumns = Object.keys(this.tableDataSource[0]).sort(
-        (a, b) => a.localeCompare(b)
-      );
-    }
-  }
-
-  // Método para lidar com alterações nas células
-  onCellValueChange(element: any, column: string) {
-    console.log('a');
-  }
-
-  handleOpenEdition() {
-    this.tableDataSource = this.tableDataSource.map((el) => {
-      const updatedEl = { ...el }; // Cria uma nova cópia do objeto
-      Object.keys(updatedEl).forEach((key) => {
-        // Ignora a coluna 'id'
-        if (key === 'id') {
-          return;
-        }
-        // Adiciona ou atualiza a chave editable
-        const editableKey = `${key}Editable`;
-        updatedEl[editableKey] = true;
-      });
-      return updatedEl; // Retorna o objeto atualizado
-    });
-  }
-  handleBlockEdition() {
-    this.tableDataSource = this.tableDataSource.map((el) => {
-      const updatedEl = { ...el }; // Cria uma nova cópia do objeto
-      Object.keys(updatedEl).forEach((key) => {
-        // Ignora a coluna 'id'
-        if (key === 'id') {
-          return;
-        }
-        // Adiciona ou atualiza a chave editable
-        const editableKey = `${key}Editable`;
-        updatedEl[editableKey] = false;
-      });
-      return updatedEl; // Retorna o objeto atualizado
-    });
-  }
-
-  enableSelectForColumn() {
-    this.enableSelectEmitter.emit(true);
-  }
-  toggleEdition() {
+  toggleEdition(): void {
     this.isEditing = !this.isEditing;
 
-    this.tableDataSource = this.tableDataSource.map((el) => {
-      const updatedEl = { ...el };
-      Object.keys(updatedEl).forEach((key) => {
-        if (key === 'id') {
-          return;
-        }
-        const editableKey = `${key}Editable`;
-        updatedEl[editableKey] = this.isEditing;
-      });
-      return updatedEl;
-    });
-    this.enableSelectForColumn();
+    if (this.isEditing) {
+      this.syncSelectedOptions();
+    }
   }
 
-  handleButtonEdit() {}
-
-  validateFields(): boolean {
-    let isValid = true;
-
-    this.tableDataSource.forEach((row) => {
+  syncSelectedOptions() {
+    this.tableDataSource.forEach((element) => {
       this.displayedColumns.forEach((column) => {
-        if (row[column + 'Editable'] && !row[column]) {
-          isValid = false;
+        if (this.isObject(element[column]) && element[column + 'Options']) {
+          element[column] =
+            element[column + 'Options'].find(
+              (option: any) => option.id === element[column].id
+            ) || element[column];
         }
       });
     });
-
-    return isValid;
   }
 
-  formatReadOnlyText(element: any, column: any) {
+  updateTableDataSource(newData: any[]) {
+    this.tableDataSource = newData;
+  }
+
+  handleText(element: any, column: any) {
     if (typeof element[column] === 'string') {
       return element[column];
     } else if (Array.isArray(element[column])) {
-      return 'array ';
+      return element[column].join(', ');
     } else {
-      return element[column][this.dynamicColumns[column]]; // element[this.dynamicColumns]['column']['labelShow'];
+      const output = element[column].name
+        ? element[column].name
+        : 'Dado nã encontrado';
+      return output;
     }
   }
 
-  formatOptionLabelShow(option: any) {
-    return option.name;
+  isString(value: any): boolean {
+    return typeof value === 'string';
+  }
+
+  isObject(value: any) {
+    return typeof value === 'object';
+  }
+
+  onDataChange(element: any): void {
+    console.log('1');
+    this.changedDataAlert = true;
+    element['dataEdited'] = true;
+  }
+
+  onDataChange2(element: any): void {
+    console.log('2');
+
+    this.changedDataAlert = true;
+    element['dataEdited'] = true;
+  }
+
+  saveChanges(): void {
+    const modifiedRows = this.tableDataSource.filter((el) => el.dataEdited);
+
+    if (modifiedRows.length > 0) {
+      console.log('Dados salvos:', modifiedRows);
+
+      modifiedRows.forEach((el) => delete el.dataEdited);
+    } else {
+      console.log('Nenhuma alteração detectada.');
+    }
+
+    this.changedDataAlert = false;
+  }
+
+  handleColumnOptions(column: string, options: any[]) {
+    this.tableDataSource.forEach((el) => {
+      el[column + 'Options'] = options;
+    });
   }
 }

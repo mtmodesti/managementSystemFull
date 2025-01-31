@@ -1,21 +1,22 @@
 <div class="wrapper">
-  <div class="left-side">
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>Selecione a Unidade</mat-label>
-      <mat-select [(value)]="selectedUnit">
-        <mat-option *ngFor="let unit of units" [value]="unit">
-          {{ unit.unitName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
   <div class="table-wrapper">
     <app-dynamic-table
-      [dynamicColumns]="dynamicColumns"
+      [tableHeader]="
+        selectedUnit ? 'Unidade selecionada: ' + selectedUnit.unitName : ''
+      "
+      (deleteEmitter)="deleteEmitter($event)"
+      [selectColumns]="selectColumns"
+      [displayedColumns]="[
+        'address',
+        'cep',
+        'email',
+        'id',
+        'phone',
+        'responsible',
+        'service',
+        'unitName'
+      ]"
       #dynamicTableComponent
-      (enableSelectEmitter)="enableSelectEmitter($event)"
-      [tableDataSource]="selectedUnit ? [selectedUnit] : []"
     ></app-dynamic-table>
   </div>
 </div>

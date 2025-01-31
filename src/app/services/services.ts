@@ -2,8 +2,17 @@ import { Injectable } from '@angular/core';
 import { getAuth } from 'firebase/auth';
 import { environment } from '../environments/environments';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore';
 import * as bcrypt from 'bcryptjs';
+import { Utils } from '../utils/utils';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +21,7 @@ export class Services {
   private auth;
   private db;
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar) {
     const app = initializeApp(environment.firebaseConfig);
     this.auth = getAuth(app);
     this.db = getFirestore(app);
@@ -105,6 +114,20 @@ export class Services {
     } catch (error) {
       console.error('Erro ao buscar serviços:', error);
       return [];
+    }
+  }
+
+  async deleteUnit(id: string) {
+    try {
+      const unitRef = doc(this.db, 'units', id);
+      await deleteDoc(unitRef);
+      return true;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao remover unidade. Contate o suporte.'
+      );
+      return false;
     }
   }
 }
