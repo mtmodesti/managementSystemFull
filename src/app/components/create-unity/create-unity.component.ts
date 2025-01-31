@@ -45,6 +45,7 @@ export class CreateUnityComponent {
       .then((res) => {
         if (res) {
           Utils.showToast(this.snackBar, 'Unidade criada com sucesso!');
+          this.userForm.resetForm();
         } else {
           Utils.showToast(
             this.snackBar,

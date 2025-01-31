@@ -37,18 +37,26 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['./dynamic-table.component.css'],
 })
 export class DynamicTableComponent {
-  private originalTableData: any[] = [];
+  //Inputs
   @Input() displayedColumns: any[] = [];
   @Input() tableHeader: string = '';
   @Input() hasActions = true;
   @Input() selectColumns: any = {};
   @Input() tableDataSource: any[] = [];
+  @Input() multiSelectColumns: string[] = [];
+  @Input() columnTitle: any = {};
+
+  //Outputs
+  @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() editedRowsEmitter: EventEmitter<any> = new EventEmitter<any>();
+
+  //Variables
   isEditing = false;
   changedDataAlert = false;
-  optionsList = [{ name: 'option1' }, { name: 'option2' }];
 
   deleteRow(element: any): void {
     console.log('Linha deletada:', element);
+    this.deleteEmitter.emit(element);
   }
 
   toggleEdition(): void {
@@ -98,14 +106,6 @@ export class DynamicTableComponent {
   }
 
   onDataChange(element: any): void {
-    console.log('1');
-    this.changedDataAlert = true;
-    element['dataEdited'] = true;
-  }
-
-  onDataChange2(element: any): void {
-    console.log('2');
-
     this.changedDataAlert = true;
     element['dataEdited'] = true;
   }
@@ -114,13 +114,9 @@ export class DynamicTableComponent {
     const modifiedRows = this.tableDataSource.filter((el) => el.dataEdited);
 
     if (modifiedRows.length > 0) {
-      console.log('Dados salvos:', modifiedRows);
-
       modifiedRows.forEach((el) => delete el.dataEdited);
-    } else {
-      console.log('Nenhuma alteração detectada.');
+      this.editedRowsEmitter.emit(modifiedRows);
     }
-
     this.changedDataAlert = false;
   }
 
@@ -128,5 +124,9 @@ export class DynamicTableComponent {
     this.tableDataSource.forEach((el) => {
       el[column + 'Options'] = options;
     });
+  }
+
+  isMultiSelect(column: string): boolean {
+    return this.multiSelectColumns?.includes(column);
   }
 }

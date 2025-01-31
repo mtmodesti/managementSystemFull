@@ -48,7 +48,7 @@
   th,
   td {
     padding: 8px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
     white-space: nowrap; /* Impede a quebra de texto */
     overflow: hidden; /* Garante que o texto fora do limite seja escondido */

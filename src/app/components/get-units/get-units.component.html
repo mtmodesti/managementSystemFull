@@ -1,11 +1,11 @@
 <div class="wrapper">
   <div class="table-wrapper">
     <app-dynamic-table
-      [tableHeader]="
-        selectedUnit ? 'Unidade selecionada: ' + selectedUnit.unitName : ''
-      "
+      [tableHeader]="'Unidades cadastradas'"
       (deleteEmitter)="deleteEmitter($event)"
       [selectColumns]="selectColumns"
+      (editedRowsEmitter)="editedRowsEmitter($event)"
+      [columnTitle]="columnTitle"
       [displayedColumns]="[
         'address',
         'cep',

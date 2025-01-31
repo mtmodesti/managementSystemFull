@@ -9,6 +9,7 @@ import {
   addDoc,
   deleteDoc,
   doc,
+  updateDoc,
 } from 'firebase/firestore';
 import * as bcrypt from 'bcryptjs';
 import { Utils } from '../utils/utils';
@@ -126,6 +127,24 @@ export class Services {
       Utils.showToast(
         this.snackBar,
         'Erro ao remover unidade. Contate o suporte.'
+      );
+      return false;
+    }
+  }
+
+  async updateUnits(units: any[]) {
+    try {
+      const updatePromises = units.map(async (unit) => {
+        const unitRef = doc(this.db, 'units', unit.id);
+        await updateDoc(unitRef, unit);
+      });
+
+      await Promise.all(updatePromises);
+      return true;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao atualizar unidades. Contate o suporte.'
       );
       return false;
     }

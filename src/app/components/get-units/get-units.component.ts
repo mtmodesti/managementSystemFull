@@ -48,6 +48,16 @@ export class GetUnitsComponent {
   dynamicColumns = {
     service: 'name',
   };
+  columnTitle = {
+    address: 'Endereço',
+    cep: 'Cep',
+    email: 'E-mail',
+    id: 'Identificador',
+    phone: 'Telefone',
+    responsible: 'Responsável',
+    service: 'Tipo de serviço',
+    unitName: 'Nome da unidade',
+  };
 
   @Input() activeTab: number = 0;
   isEditable = false;
@@ -66,11 +76,8 @@ export class GetUnitsComponent {
   constructor(
     private services: Services,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private dialog: MatDialog
   ) {}
-
-  onValueChange(element: any, column: string) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeTab'] && changes['activeTab'].currentValue) {
@@ -86,7 +93,6 @@ export class GetUnitsComponent {
       .getUnits()
       .then((res) => {
         this.units = res;
-        console.log(res);
         this.dynamicTableComponent.updateTableDataSource(res);
       })
       .catch((err) => {
@@ -97,18 +103,6 @@ export class GetUnitsComponent {
         );
       });
   }
-
-  objectEntries(obj: any): { key: string; value: any }[] {
-    return obj
-      ? Object.entries(obj).map(([key, value]) => ({ key, value }))
-      : [];
-  }
-
-  formatValue(value: any): string {
-    return Array.isArray(value) ? value.join(', ') : value.toString();
-  }
-
-  removeUnit(id: string): void {}
 
   handleGetServices() {
     this.services
@@ -126,14 +120,6 @@ export class GetUnitsComponent {
       });
   }
 
-  // enableSelectEmitter(event: boolean) {
-  //   Utils.enableSelectForDynamicTable(
-  //     this.dynamicTableComponent,
-  //     'service',
-  //     this.servicesOptions
-  //   );
-  // }
-
   deleteEmitter(event: any) {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       width: '400px',
@@ -147,8 +133,18 @@ export class GetUnitsComponent {
         this.services.deleteUnit(result.unit.id);
         Utils.showToast(this.snackBar, 'Unidade removida com sucesso!');
         this.handleGetUnits();
-        //  this.dynamicTableComponent.updateTableData([]);
       }
     });
+  }
+
+  async editedRowsEmitter(event: any[]) {
+    console.log(event);
+
+    const result = await this.services.updateUnits(event);
+
+    if (result) {
+      Utils.showToast(this.snackBar, 'Unidade(s) atualizadas com sucesso!');
+      this.dynamicTableComponent.isEditing = false;
+    }
   }
 }
