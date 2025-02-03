@@ -11,6 +11,17 @@
     </span>
   </div>
 
+  <div>
+    <mat-checkbox
+      *ngFor="let box of checkboxesOptions()"
+      [checked]="checkboxState[box]"
+      (change)="toggleColumnVisibility(box)"
+      [disabled]="box === 'id'"
+    >
+      {{ columnTitle[box] }}
+    </mat-checkbox>
+  </div>
+
   <!-- Tabela -->
   <div class="table-container">
     <table
@@ -136,3 +147,4 @@
     </button>
   </div>
 </div>
+<button (click)="availableCheckboxes()">teste</button>

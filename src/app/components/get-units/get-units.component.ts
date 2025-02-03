@@ -58,6 +58,16 @@ export class GetUnitsComponent {
     service: 'Tipo de serviço',
     unitName: 'Nome da unidade',
   };
+  checkboxState: any = {
+    address: true,
+    cep: false,
+    email: false,
+    id: true,
+    phone: false,
+    responsible: false,
+    service: false,
+    unitName: false,
+  };
 
   @Input() activeTab: number = 0;
   isEditable = false;

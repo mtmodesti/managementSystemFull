@@ -5,7 +5,9 @@ import {
   Input,
   OnInit,
   Output,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
@@ -17,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOption } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-dynamic-table',
@@ -29,6 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSelectModule,
     MatTooltipModule,
     MatInputModule,
+    MatCheckbox,
     MatFormFieldModule,
     FormsModule,
     MatButtonModule,
@@ -45,10 +49,18 @@ export class DynamicTableComponent {
   @Input() tableDataSource: any[] = [];
   @Input() multiSelectColumns: string[] = [];
   @Input() columnTitle: any = {};
+  @Input() checkboxColumns: any = [];
+  @Input() checkboxState: any = {};
+  @Input() columnVisibilityState: { [key: string]: boolean } = {};
 
   //Outputs
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
   @Output() editedRowsEmitter: EventEmitter<any> = new EventEmitter<any>();
+
+  //Viewchilds
+  @ViewChildren('checkboxViewChild') checkboxViewChild:
+    | QueryList<MatCheckbox>
+    | undefined;
 
   //Variables
   isEditing = false;
@@ -128,5 +140,33 @@ export class DynamicTableComponent {
 
   isMultiSelect(column: string): boolean {
     return this.multiSelectColumns?.includes(column);
+  }
+
+  ngOnInit() {
+    // Filtro inicial para exibir apenas as colunas com o valor true no checkboxState
+    this.displayedColumns = Object.keys(this.checkboxState).filter(
+      (column) => this.checkboxState[column] === true
+    );
+  }
+
+  toggleColumnVisibility(column: string) {
+    const columnIndex = this.displayedColumns.indexOf(column);
+    if (columnIndex !== -1) {
+      this.displayedColumns.splice(columnIndex, 1); // Remove a coluna
+    } else {
+      this.displayedColumns.push(column); // Adiciona a coluna
+      this.displayedColumns.sort((a, b) => a.localeCompare(b)); // Ordena alfabeticamente
+    }
+  }
+
+  checkboxesOptions() {
+    return Object.keys(this.checkboxState);
+  }
+
+  availableCheckboxes() {
+    let teste = Object.entries(this.checkboxState)
+      .filter((el) => el[1] === true)
+      .map((el) => el[0]);
+    return teste;
   }
 }
