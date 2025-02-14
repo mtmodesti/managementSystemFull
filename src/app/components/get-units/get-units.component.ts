@@ -59,14 +59,14 @@ export class GetUnitsComponent {
     unitName: 'Nome da unidade',
   };
   checkboxState: any = {
-    address: true,
+    address: false,
     cep: false,
     email: false,
-    id: true,
+    id: false,
     phone: false,
     responsible: false,
     service: false,
-    unitName: false,
+    unitName: true,
   };
 
   @Input() activeTab: number = 0;
@@ -148,8 +148,6 @@ export class GetUnitsComponent {
   }
 
   async editedRowsEmitter(event: any[]) {
-    console.log(event);
-
     const result = await this.services.updateUnits(event);
 
     if (result) {

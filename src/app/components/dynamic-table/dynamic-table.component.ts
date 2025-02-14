@@ -52,6 +52,7 @@ export class DynamicTableComponent {
   @Input() checkboxColumns: any = [];
   @Input() checkboxState: any = {};
   @Input() columnVisibilityState: { [key: string]: boolean } = {};
+  @Input() disabledColumn: string = 'disbledColumn';
 
   //Outputs
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
@@ -67,7 +68,6 @@ export class DynamicTableComponent {
   changedDataAlert = false;
 
   deleteRow(element: any): void {
-    console.log('Linha deletada:', element);
     this.deleteEmitter.emit(element);
   }
 
@@ -161,12 +161,5 @@ export class DynamicTableComponent {
 
   checkboxesOptions() {
     return Object.keys(this.checkboxState);
-  }
-
-  availableCheckboxes() {
-    let teste = Object.entries(this.checkboxState)
-      .filter((el) => el[1] === true)
-      .map((el) => el[0]);
-    return teste;
   }
 }

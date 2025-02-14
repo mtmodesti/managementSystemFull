@@ -56,7 +56,7 @@ export class CreateUnityComponent {
       .catch((err) => {
         Utils.showToast(
           this.snackBar,
-          'Erro ao riar unidade. COntate o suporte !'
+          'Erro ao riar unidade. Contate o suporte!'
         );
       });
   }

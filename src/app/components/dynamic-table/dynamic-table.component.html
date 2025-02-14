@@ -16,7 +16,7 @@
       *ngFor="let box of checkboxesOptions()"
       [checked]="checkboxState[box]"
       (change)="toggleColumnVisibility(box)"
-      [disabled]="box === 'id'"
+      [disabled]="box === disabledColumn"
     >
       {{ columnTitle[box] }}
     </mat-checkbox>
@@ -147,4 +147,3 @@
     </button>
   </div>
 </div>
-<button (click)="availableCheckboxes()">teste</button>

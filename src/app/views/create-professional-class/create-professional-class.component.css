@@ -25,6 +25,18 @@ button[type="submit"]:not([disabled]) {
   color: white !important; /* Ajusta a cor do texto, se necessário */
 }
 
+mat-tab-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+
+.table-wrapper {
+  max-width: 80vw;
+}
+
 @media (max-width: 370px) {
   form {
     position: relative;

@@ -149,4 +149,105 @@ export class Services {
       return false;
     }
   }
+
+  async createProfessionalClass(className: string) {
+    try {
+      const professionalClassesCollection = collection(
+        this.db,
+        'professionalClasses'
+      );
+      const professionalClassesSnapshot = await getDocs(
+        professionalClassesCollection
+      );
+      const professionalClassesList = professionalClassesSnapshot.docs.map(
+        (doc) => doc.data()
+      );
+
+      console.log(professionalClassesList);
+      const isClassAlreadyExists = professionalClassesList.some(
+        (existingClass: any) => existingClass.name === className
+      );
+
+      if (isClassAlreadyExists) {
+        Utils.showToast(this.snackBar, 'Essa classe já existe.');
+        return false;
+      }
+
+      await addDoc(professionalClassesCollection, {
+        name: className,
+        createdAt: new Date(),
+      });
+      Utils.showToast(this.snackBar, 'Classe criada com sucesso!');
+      return true;
+    } catch (error) {
+      Utils.showToast(this.snackBar, 'Erro ao criar classe. Contate o suporte');
+      console.error('Erro ao criar a classe profissional:', error);
+      return false;
+    }
+  }
+
+  async getProfessionalClasses() {
+    try {
+      const professionalClassesColeection = collection(
+        this.db,
+        'professionalClasses'
+      );
+      const professionalClassesSnapshot = await getDocs(
+        professionalClassesColeection
+      );
+      const professionalClassesList = professionalClassesSnapshot.docs.map(
+        (doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })
+      );
+      return professionalClassesList;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao buscar classes profissionais. Contate o suporte.'
+      );
+      return [];
+    }
+  }
+
+  async deleteProfessionalClass(id: string) {
+    try {
+      const unitRef = doc(this.db, 'professionalClasses', id);
+      await deleteDoc(unitRef);
+      Utils.showToast(this.snackBar, 'Classe removida com sucesso!');
+      return true;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao remover unidade. Contate o suporte.'
+      );
+      return false;
+    }
+  }
+
+  async updateProfessionalClasses(professionalClasses: any[]) {
+    try {
+      const updatePromises = professionalClasses.map(
+        async (professionalClass) => {
+          const professionalClassesRef = doc(
+            this.db,
+            'professionalClasses',
+            professionalClass.id
+          );
+          await updateDoc(professionalClassesRef, professionalClass);
+        }
+      );
+
+      await Promise.all(updatePromises);
+      Utils.showToast(this.snackBar, 'Classe(s) atualizada(s) com sucesso! ');
+      return true;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao atualizar classes. Contate o suporte.'
+      );
+      return false;
+    }
+  }
 }

@@ -1,44 +1,64 @@
 <div class="wrapper">
-  <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm" class="user-form">
-    <!-- Nome da Classe -->
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>Nome da classe</mat-label>
-      <input
-        matInput
-        type="text"
-        id="className"
-        name="className"
-        ngModel
-        required
-      />
-      <mat-error
-        *ngIf="
-          userForm.controls['className']?.invalid &&
-          userForm.controls['className']?.touched
-        "
+  <mat-tab-group (selectedIndexChange)="onTabChange($event)">
+    <mat-tab label="Criar classe profissional">
+      <form
+        (ngSubmit)="onSubmit(userForm)"
+        #userForm="ngForm"
+        class="user-form"
       >
-        Campo obrigatório
-      </mat-error>
-    </mat-form-field>
+        <mat-form-field appearance="outline" class="form-group">
+          <mat-label>Nome da classe</mat-label>
+          <input
+            matInput
+            type="text"
+            id="className"
+            name="className"
+            ngModel
+            required
+          />
+          <mat-error
+            *ngIf="
+              userForm.controls['className']?.invalid &&
+              userForm.controls['className']?.touched
+            "
+          >
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Botão de Submissão -->
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="userForm.invalid"
-    >
-      Criar Classe
-    </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="userForm.invalid"
+        >
+          Criar Classe
+        </button>
+      </form>
+    </mat-tab>
 
-    <!-- Botão flutuante -->
-    <button
-      mat-fab
-      color="primary"
-      class="floating-button"
-      (click)="goToDashboard(userForm); $event.preventDefault()"
-    >
-      <mat-icon>dashboard</mat-icon>
-    </button>
-  </form>
+    <mat-tab label="Listar classes profissionais">
+      <div class="table-wrapper">
+        <app-dynamic-table
+          (deleteEmitter)="deleteRow($event)"
+          [tableHeader]="'Classes profissionais'"
+          [columnTitle]="columnTitle"
+          [checkboxState]="checkboxState"
+          [disabledColumn]="'id'"
+          [displayedColumns]="['name', 'id']"
+          (editedRowsEmitter)="editedRowsEmitter($event)"
+          #dynamicTableComponent
+        ></app-dynamic-table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <button
+    mat-fab
+    color="primary"
+    class="floating-button"
+    (click)="goToDashboard(userForm); $event.preventDefault()"
+  >
+    <mat-icon>dashboard</mat-icon>
+  </button>
 </div>
