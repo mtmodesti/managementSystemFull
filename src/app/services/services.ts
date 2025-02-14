@@ -98,7 +98,10 @@ export class Services {
       }));
       return unitsList;
     } catch (error) {
-      console.error('Erro ao buscar unidades:', error);
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao buscar unidades. Contate o suporte.'
+      );
       return [];
     }
   }
@@ -113,7 +116,10 @@ export class Services {
       }));
       return servicesList;
     } catch (error) {
-      console.error('Erro ao buscar serviços:', error);
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao buscar serviços. Contate o suporte.'
+      );
       return [];
     }
   }
@@ -163,7 +169,6 @@ export class Services {
         (doc) => doc.data()
       );
 
-      console.log(professionalClassesList);
       const isClassAlreadyExists = professionalClassesList.some(
         (existingClass: any) => existingClass.name === className
       );
@@ -248,6 +253,24 @@ export class Services {
         'Erro ao atualizar classes. Contate o suporte.'
       );
       return false;
+    }
+  }
+
+  async getUsers() {
+    try {
+      const usersColeection = collection(this.db, 'users');
+      const usersSnapshot = await getDocs(usersColeection);
+      const usersList = usersSnapshot.docs.map((user) => ({
+        id: user.id,
+        ...user.data(),
+      }));
+      return usersList;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao buscar usuários. Contate o suporte.'
+      );
+      return [];
     }
   }
 }
