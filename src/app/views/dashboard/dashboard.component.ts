@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ModuleBoxComponent } from '../../components/module-box/module-box.component';
 import dashboardModules from '../../../assets/configs/modules.json';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 

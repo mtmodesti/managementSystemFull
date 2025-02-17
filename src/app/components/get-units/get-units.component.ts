@@ -59,13 +59,13 @@ export class GetUnitsComponent {
     unitName: 'Nome da unidade',
   };
   checkboxState: any = {
-    address: false,
-    cep: false,
-    email: false,
-    id: false,
-    phone: false,
-    responsible: false,
-    service: false,
+    address: true,
+    cep: true,
+    email: true,
+    id: true,
+    phone: true,
+    responsible: true,
+    service: true,
     unitName: true,
   };
 

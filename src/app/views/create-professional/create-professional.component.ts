@@ -11,11 +11,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { Services } from '../../services/services';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DynamicTableComponent } from '../../components/dynamic-table/dynamic-table.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-create-professional',
   imports: [
     CommonModule,
+    MatIconModule,
     MatTabsModule,
     FormsModule,
     DynamicTableComponent,
@@ -102,6 +104,9 @@ export class CreateProfessionalComponent implements OnInit {
         this.professionalsList
       );
       this.dynamicTableComponent.handleColumnOptions('units', this.unitsList);
+      this.dynamicTableComponent.selectColumns['units'] = this.unitsList;
+      this.dynamicTableComponent.selectColumns['profession'] = this.unitsList;
+      this.dynamicTableComponent.isEditing = false;
     }
   }
 }

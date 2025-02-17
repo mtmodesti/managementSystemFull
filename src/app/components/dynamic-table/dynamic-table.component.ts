@@ -82,12 +82,28 @@ export class DynamicTableComponent {
   syncSelectedOptions() {
     this.tableDataSource.forEach((element) => {
       this.displayedColumns.forEach((column) => {
-        if (this.isObject(element[column]) && element[column + 'Options']) {
+        if (Array.isArray(element[column])) {
+          console.log(column);
+          console.log(this.tableDataSource);
+          const optionsIds = element[column].map((el: any) => el.id);
+          element[column] = this.selectColumns[column].filter((el: any) =>
+            optionsIds.includes(el.id)
+          );
+        } else if (
+          typeof element[column] === 'object' &&
+          element[column].constructor === Object
+        ) {
           element[column] =
             element[column + 'Options'].find(
               (option: any) => option.id === element[column].id
             ) || element[column];
         }
+
+        // if (this.isObject(element[column]) && element[column + 'Options']) {
+        //   console.log(element);
+        //   console.log(column);
+
+        // }
 
         // if (Array.isArray(element[column] && element[column + 'Options'])) {
         //   console.log(element);
@@ -103,6 +119,7 @@ export class DynamicTableComponent {
         //   element[column] = currentValue;
         // }
       });
+      console.log(this.tableDataSource);
     });
   }
 
@@ -161,6 +178,9 @@ export class DynamicTableComponent {
     this.displayedColumns = Object.keys(this.checkboxState).filter(
       (column) => this.checkboxState[column] === true
     );
+    setTimeout(() => {
+      console.log(this.tableDataSource);
+    }, 5000);
   }
 
   toggleColumnVisibility(column: string) {
