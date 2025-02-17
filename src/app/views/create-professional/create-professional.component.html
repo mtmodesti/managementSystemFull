@@ -1,145 +1,171 @@
 <div class="wrapper">
-  <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm" class="user-form">
-    <!-- Nome -->
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>Nome completo</mat-label>
-      <input
-        matInput
-        type="text"
-        id="unitName"
-        name="unitName"
-        ngModel
-        required
-      />
-      <mat-error
-        *ngIf="
-          userForm.controls['unitName']?.invalid &&
-          userForm.controls['unitName']?.touched
-        "
-      >
-        Campo obrigatório
-      </mat-error>
-    </mat-form-field>
+  <mat-tab-group (selectedTabChange)="selectedTabChange($event)">
+    <mat-tab label="Criar profissional">
+      <div>
+        <form
+          (ngSubmit)="onSubmit(userForm)"
+          #userForm="ngForm"
+          class="user-form"
+        >
+          <mat-form-field appearance="outline" class="form-group">
+            <mat-label>Nome completo</mat-label>
+            <input
+              matInput
+              type="text"
+              id="name"
+              name="name"
+              ngModel
+              required
+            />
+            <mat-error
+              *ngIf="
+                userForm.controls['name']?.invalid &&
+                userForm.controls['name']?.touched
+              "
+            >
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
 
-    <!-- CPF -->
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>CPF</mat-label>
-      <input
-        mask="000.000.000-00"
-        matInput
-        type="text"
-        id="cpf"
-        name="cpf"
-        ngModel
-        required
-      />
-      <mat-error
-        *ngIf="
-          userForm.controls['cpf']?.invalid && userForm.controls['cpf']?.touched
-        "
-      >
-        Campo obrigatório
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field appearance="outline" class="form-group">
+            <mat-label>CPF</mat-label>
+            <input
+              mask="000.000.000-00"
+              matInput
+              type="text"
+              id="cpf"
+              name="cpf"
+              ngModel
+              required
+            />
+            <mat-error
+              *ngIf="
+                userForm.controls['cpf']?.invalid &&
+                userForm.controls['cpf']?.touched
+              "
+            >
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
 
-    <!-- E-mail -->
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>E-mail</mat-label>
-      <input
-        matInput
-        type="email"
-        id="email"
-        name="email"
-        ngModel
-        required
-        placeholder="email@email.com"
-        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$"
-      />
-      <mat-error
-        *ngIf="
-          userForm.controls['email']?.invalid &&
-          userForm.controls['email']?.touched
-        "
-      >
-        Campo inválido
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field appearance="outline" class="form-group">
+            <mat-label>E-mail</mat-label>
+            <input
+              matInput
+              type="email"
+              id="email"
+              name="email"
+              ngModel
+              required
+              placeholder="email@email.com"
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$"
+            />
+            <mat-error
+              *ngIf="
+                userForm.controls['email']?.invalid &&
+                userForm.controls['email']?.touched
+              "
+            >
+              Campo inválido
+            </mat-error>
+          </mat-form-field>
 
-    <!-- Registro Profissional -->
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>Registro Profissional</mat-label>
-      <input
-        matInput
-        type="text"
-        id="professionalId"
-        name="professionalId"
-        ngModel
-        required
-      />
-      <mat-error
-        *ngIf="
-          userForm.controls['professionalId']?.invalid &&
-          userForm.controls['professionalId']?.touched
-        "
-      >
-        Campo obrigatório
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field appearance="outline" class="form-group">
+            <mat-label>Registro Profissional</mat-label>
+            <input
+              matInput
+              type="text"
+              id="professionalId"
+              name="professionalId"
+              ngModel
+              required
+            />
+            <mat-error
+              *ngIf="
+                userForm.controls['professionalId']?.invalid &&
+                userForm.controls['professionalId']?.touched
+              "
+            >
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
 
-    <!-- Profissão -->
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>Profissão</mat-label>
-      <mat-select id="profession" name="profession" ngModel required>
-        <mat-option value="psicologo">Psicólogo</mat-option>
-        <mat-option value="assistente">Assistente</mat-option>
-        <mat-option value="motorista">Motorista</mat-option>
-      </mat-select>
-      <mat-error
-        *ngIf="
-          userForm.controls['profession']?.invalid &&
-          userForm.controls['profession']?.touched
-        "
-      >
-        Campo obrigatório
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field appearance="outline" class="form-group">
+            <mat-label>Profissão</mat-label>
+            <mat-select id="profession" name="profession" ngModel required>
+              <mat-option
+                *ngFor="let professional of professionalsList"
+                [value]="professional"
+                >{{ professional.name }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="
+                userForm.controls['profession']?.invalid &&
+                userForm.controls['profession']?.touched
+              "
+            >
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
 
-    <!-- Unidade de Atendimento -->
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>Unidade de Atendimento</mat-label>
-      <mat-select id="units" name="units" ngModel multiple required>
-        <mat-option value="unidade1">Unidade 1</mat-option>
-        <mat-option value="unidade2">Unidade 2</mat-option>
-        <mat-option value="unidade3">Unidade 3</mat-option>
-      </mat-select>
-      <mat-error
-        *ngIf="
-          userForm.controls['units']?.invalid &&
-          userForm.controls['units']?.touched
-        "
-      >
-        Campo obrigatório
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field appearance="outline" class="form-group">
+            <mat-label>Unidade de Atendimento</mat-label>
+            <mat-select id="units" name="units" ngModel multiple required>
+              <mat-option *ngFor="let unit of unitsList" [value]="unit">{{
+                unit.unitName
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                userForm.controls['units']?.invalid &&
+                userForm.controls['units']?.touched
+              "
+            >
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
 
-    <!-- Botão de Submissão -->
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="userForm.invalid"
-    >
-      Criar Profissional
-    </button>
-
-    <!-- Botão flutuante -->
-    <button
-      mat-fab
-      color="primary"
-      class="floating-button"
-      (click)="goToDashboard(userForm); $event.preventDefault()"
-    >
-      <mat-icon>dashboard</mat-icon>
-    </button>
-  </form>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="userForm.invalid"
+          >
+            Criar Profissional
+          </button>
+        </form>
+      </div>
+    </mat-tab>
+    <mat-tab label="Listar profissionais">
+      <app-dynamic-table
+        [tableHeader]="'Profissionais cadastrados'"
+        (deleteEmitter)="deleteEmitter($event)"
+        [selectColumns]="selectColumns"
+        (editedRowsEmitter)="editedRowsEmitter($event)"
+        [columnTitle]="columnTitle"
+        [multiSelectColumns]="multiSelectColumns"
+        [checkboxState]="checkboxState"
+        [disabledColumn]="'id'"
+        [displayedColumns]="[
+          'cpf',
+          'email',
+          'id',
+          'name',
+          'profession',
+          'professionalId',
+          'units'
+        ]"
+        #dynamicTableComponent
+      ></app-dynamic-table>
+    </mat-tab>
+  </mat-tab-group>
+  <button
+    mat-fab
+    color="primary"
+    class="floating-button"
+    (click)="goToDashboard(userForm); $event.preventDefault()"
+  >
+    <mat-icon> </mat-icon>
+  </button>
 </div>

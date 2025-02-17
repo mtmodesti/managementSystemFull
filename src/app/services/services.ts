@@ -56,11 +56,12 @@ export class Services {
     }
 
     try {
+      if (!user.password) {
+        user['password'] = 'default';
+      }
       const hashedPassword = await bcrypt.hash(user.password, 10);
-      await addDoc(usersCollection, {
-        email: user.email,
-        password: hashedPassword,
-      });
+      user.password = hashedPassword;
+      await addDoc(usersCollection, user);
       return user;
     } catch (error) {
       return false;
@@ -191,7 +192,7 @@ export class Services {
     }
   }
 
-  async getProfessionalClasses() {
+  async getProfessionalClasses(): Promise<any[]> {
     try {
       const professionalClassesColeection = collection(
         this.db,

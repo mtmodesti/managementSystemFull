@@ -78,7 +78,7 @@
                 <span>
                   {{
                     isMultiSelect(column)
-                      ? (element[column] | json)
+                      ? handleMultiSelectOptions(element, column)
                       : element[column]?.name || "Dado não encontrado"
                   }}
                 </span>

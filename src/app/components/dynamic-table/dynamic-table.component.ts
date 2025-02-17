@@ -88,6 +88,20 @@ export class DynamicTableComponent {
               (option: any) => option.id === element[column].id
             ) || element[column];
         }
+
+        // if (Array.isArray(element[column] && element[column + 'Options'])) {
+        //   console.log(element);
+        //   console.log(column);
+
+        //   const availableOptions = element[column + 'Options'].map(
+        //     (el: any) => el.id
+        //   );
+        //   const currentValue = element[column].filter((el: any) =>
+        //     availableOptions.includes(el.id)
+        //   );
+
+        //   element[column] = currentValue;
+        // }
       });
     });
   }
@@ -100,9 +114,9 @@ export class DynamicTableComponent {
     if (typeof element[column] === 'string') {
       return element[column];
     } else if (Array.isArray(element[column])) {
-      return element[column].join(', ');
+      return 'array';
     } else {
-      const output = element[column].name
+      const output = element[column]?.name
         ? element[column].name
         : 'Dado nã encontrado';
       return output;
@@ -161,5 +175,15 @@ export class DynamicTableComponent {
 
   checkboxesOptions() {
     return Object.keys(this.checkboxState);
+  }
+
+  handleMultiSelectOptions(element: any, column: any) {
+    const availableOptions = element[column + 'Options'].map(
+      (el: any) => el.id
+    );
+    const currentValue = element[column].filter((el: any) =>
+      availableOptions.includes(el.id)
+    );
+    return currentValue.map((el: any) => el.unitName).join(', ');
   }
 }

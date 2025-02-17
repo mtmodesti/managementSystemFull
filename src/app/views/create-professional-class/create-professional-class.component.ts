@@ -41,7 +41,6 @@ export class CreateProfessionalClassComponent {
   constructor(private router: Router, private services: Services) {}
 
   onSubmit(userForm: any): void {
-    console.log(userForm.value);
     const className = userForm.value.className;
     this.services.createProfessionalClass(className);
   }
@@ -61,7 +60,6 @@ export class CreateProfessionalClassComponent {
   }
 
   async deleteRow(event: any) {
-    console.log(event);
     const isDeleted = await this.services.deleteProfessionalClass(event.id);
 
     if (isDeleted) {

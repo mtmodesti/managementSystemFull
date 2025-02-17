@@ -1,5 +1,8 @@
 <div class="wrapper">
-  <mat-tab-group (selectedIndexChange)="onTabChange($event)">
+  <mat-tab-group
+    style="width: 100%"
+    (selectedIndexChange)="onTabChange($event)"
+  >
     <mat-tab label="Criar classe profissional">
       <form
         (ngSubmit)="onSubmit(userForm)"
