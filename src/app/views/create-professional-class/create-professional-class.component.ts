@@ -18,7 +18,6 @@ import { DynamicTableComponent } from '../../components/dynamic-table/dynamic-ta
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIcon,
     MatButtonModule,
     DynamicTableComponent,
   ],

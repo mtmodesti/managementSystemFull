@@ -6,34 +6,30 @@ import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTreeModule } from '@angular/material/tree';
+import menuTreeData from '../../../assets/configs/sidenavTreeData.json';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     MatIconModule,
+    FormsModule,
+    MatTreeModule,
+    MatCheckboxModule,
+    MatSidenavModule,
     MatButtonModule,
-    MatIcon,
-    ModuleBoxComponent,
     CommonModule,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
-  modules: any[] = [];
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-    this.modules = this.handleLoadModules();
-  }
-
-  goToLogin(): void {
-    this.router.navigate(['/']);
-  }
-
-  // Função que carrega módulos do dashboard de acordo com o perfil
-  // alterar para true || false a chave visible de acordo com o perfil
-  handleLoadModules() {
-    return dashboardModules.dashboard.modules;
+  navigate(url: string) {
+    this.router.navigate([`/${url}`]);
   }
 }

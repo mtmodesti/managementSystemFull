@@ -1,0 +1,37 @@
+{
+  "sidenav": [
+    {
+      "name": "Dashboard",
+      "url": "dashboard",
+      "icon": "dashboard"
+    },
+    {
+      "name": "Administrativo",
+      "children": [
+        { "name": "Unidades", "icon": "domain", "url": "unity" },
+        { "name": "Profissionais", "icon": "group", "url": "professional" },
+        { "name": "Classes", "icon": "category", "url": "class" }
+      ]
+    },
+    {
+      "name": "Profissional",
+      "children": [
+        {
+          "name": "Dados pessoais",
+          "icon": "person",
+          "url": "unity"
+        },
+        {
+          "name": "Criar relatórios",
+          "icon": "insert_chart",
+          "url": "unity"
+        }
+      ]
+    },
+    {
+      "name": "Encerrar sessão",
+      "url": "/",
+      "icon": "logout"
+    }
+  ]
+}

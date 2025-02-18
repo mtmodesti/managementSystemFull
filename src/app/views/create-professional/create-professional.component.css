@@ -13,13 +13,6 @@
   }
 }
 
-.floating-button {
-  position: fixed;
-  top: 5px;
-  left: 5px;
-  z-index: 1000;
-}
-
 mat-tab-group {
   width: 100%;
   div {
@@ -32,10 +25,6 @@ mat-tab-group {
 @media (max-width: 370px) {
   form {
     position: relative;
-    top: 60px;
-  }
-
-  .floating-button {
     top: 60px;
   }
 }

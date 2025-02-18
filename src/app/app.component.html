@@ -1,1 +1,48 @@
-<router-outlet />
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="custom-sidenav">
+    <mat-tree
+      #tree
+      [dataSource]="dataSource"
+      [childrenAccessor]="childrenAccessor"
+    >
+      <!-- Nó folha -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <button mat-icon-button (click)="navigate(node.url)">
+          <mat-icon>{{ node.icon }}</mat-icon>
+        </button>
+
+        {{ node.name }}
+      </mat-tree-node>
+
+      <!-- Nó com filhos -->
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <button
+          mat-icon-button
+          matTreeNodeToggle
+          [attr.aria-label]="'Toggle ' + node.name"
+        >
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ tree.isExpanded(node) ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        {{ node.name }}
+      </mat-tree-node>
+    </mat-tree>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content-with-margin" [class.menu-opened]="opened">
+    <div class="wrapper">
+      <router-outlet />
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<button
+  *ngIf="getRoute()"
+  mat-fab
+  color="primary"
+  class="floating-button"
+  (click)="toggleSidenavMenu(); $event.preventDefault()"
+>
+  <mat-icon>menu</mat-icon>
+</button>

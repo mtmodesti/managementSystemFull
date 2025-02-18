@@ -12,13 +12,6 @@
   }
 }
 
-.floating-button {
-  position: fixed;
-  top: 5px;
-  left: 5px;
-  z-index: 1000;
-}
-
 button[type="submit"]:not([disabled]) {
   background-color: #c07c2b !important;
   color: white !important; /* Ajusta a cor do texto, se necessário */

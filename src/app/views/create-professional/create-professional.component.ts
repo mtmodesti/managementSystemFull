@@ -25,7 +25,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     NgxMaskDirective,
     MatSelectModule,
-    MatIcon,
     MatButtonModule,
   ],
   templateUrl: './create-professional.component.html',
@@ -78,13 +77,9 @@ export class CreateProfessionalComponent implements OnInit {
     this.unitsList = await this.services.getUnits();
   }
 
-  deleteEmitter(event: any) {
-    console.log(event);
-  }
+  deleteEmitter(event: any) {}
 
-  editedRowsEmitter(event: any) {
-    console.log(event);
-  }
+  editedRowsEmitter(event: any) {}
 
   async selectedTabChange(event: any) {
     if (event.index === 1) {

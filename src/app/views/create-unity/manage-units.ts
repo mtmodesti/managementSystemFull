@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CreateUnityComponent } from '../../components/create-unity/create-unity.component';
 import { GetUnitsComponent } from '../../components/get-units/get-units.component';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'manage-unitys',
@@ -18,7 +17,6 @@ import { MatIcon } from '@angular/material/icon';
     FormsModule,
     MatButtonModule,
     MatTabsModule,
-    MatIcon,
     MatFormFieldModule,
     GetUnitsComponent,
     CreateUnityComponent,
