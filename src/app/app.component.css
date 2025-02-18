@@ -3,15 +3,6 @@ mat-tree {
   top: 80px;
 }
 
-.wrapper {
-  border: 1px solid red;
-  height: 100vh;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .floating-button {
   position: fixed;
   top: 5px;

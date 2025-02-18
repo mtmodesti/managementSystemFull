@@ -1,6 +1,5 @@
 <div class="wrapper">
   <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm" class="user-form">
-    <!-- Nome da Unidade -->
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>Nome da Unidade</mat-label>
       <input
@@ -21,7 +20,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Endereço Completo -->
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>Endereço Completo</mat-label>
       <input
@@ -42,7 +40,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- CEP -->
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>Cep</mat-label>
       <input
@@ -65,7 +62,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- E-mail -->
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>E-mail</mat-label>
       <input
@@ -88,7 +84,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Telefone de Contato -->
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>Telefone de Contato</mat-label>
       <input
@@ -110,7 +105,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Responsável -->
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>Responsável</mat-label>
       <input
@@ -131,8 +125,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Serviço -->
-
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>Serviço</mat-label>
       <mat-select id="service" name="service" ngModel required>
@@ -150,7 +142,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Botão de Submissão -->
     <button
       mat-raised-button
       color="primary"
