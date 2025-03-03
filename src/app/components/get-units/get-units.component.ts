@@ -140,9 +140,12 @@ export class GetUnitsComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        this.services.deleteUnit(result.unit.id);
-        Utils.showToast(this.snackBar, 'Unidade removida com sucesso!');
-        this.handleGetUnits();
+        this.services.deleteUnit(result.unit.id).then(() => {
+          Utils.showToast(this.snackBar, 'Unidade removida com sucesso!');
+          this.dynamicTableComponent.isEditing = false;
+          this.handleGetUnits();
+          this.handleGetServices();
+        });
       }
     });
   }

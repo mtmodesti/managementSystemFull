@@ -6,7 +6,6 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTreeModule } from '@angular/material/tree';
 import { Router, RouterOutlet } from '@angular/router';
-import { ModuleBoxComponent } from './components/module-box/module-box.component';
 import { CommonModule } from '@angular/common';
 import menuTreeData from '../assets/configs/sidenavTreeData.json';
 import dashboardModules from '../assets/configs/modules.json';
@@ -50,7 +49,7 @@ export class AppComponent {
 
   navigate(url: string) {
     this.router.navigate([`/${url}`]);
-    console.log(this.dataSource);
+    this.opened = false;
   }
 
   getRoute() {

@@ -59,7 +59,16 @@
           <ng-template #readMode>
             <ng-container *ngIf="isObject(element[column]); else textMode">
               <ng-container *ngIf="isEditing; else showText">
-                <mat-form-field appearance="outline">
+                <mat-slide-toggle
+                  [(ngModel)]="element[column]"
+                  (change)="onDataChange(element)"
+                  *ngIf="typeof(element[column]) === 'boolean'"
+                ></mat-slide-toggle>
+
+                <mat-form-field
+                  *ngIf="typeof(element[column]) !== 'boolean'"
+                  appearance="outline"
+                >
                   <mat-select
                     [(ngModel)]="element[column]"
                     (selectionChange)="onDataChange(element)"
@@ -79,6 +88,8 @@
                   {{
                     isMultiSelect(column)
                       ? handleMultiSelectOptions(element, column)
+                      : isBooleanType(element, column)
+                      ? isBoolean(element, column)
                       : element[column]?.name || "Dado não encontrado"
                   }}
                 </span>

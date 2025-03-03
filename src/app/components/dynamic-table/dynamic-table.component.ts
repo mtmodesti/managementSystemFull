@@ -20,6 +20,7 @@ import { MatOption } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-dynamic-table',
@@ -29,6 +30,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
     MatIcon,
     MatTableModule,
     MatOption,
+    MatSlideToggleModule,
     MatSelectModule,
     MatTooltipModule,
     MatInputModule,
@@ -109,6 +111,8 @@ export class DynamicTableComponent {
       return element[column];
     } else if (Array.isArray(element[column])) {
       return 'array';
+    } else if (typeof element[column] === 'boolean') {
+      return this.isBoolean(element, column);
     } else {
       const output = element[column]?.name
         ? element[column].name
@@ -122,7 +126,7 @@ export class DynamicTableComponent {
   }
 
   isObject(value: any) {
-    return typeof value === 'object';
+    return typeof value === 'object' || typeof value === 'boolean';
   }
 
   onDataChange(element: any): void {
@@ -165,6 +169,7 @@ export class DynamicTableComponent {
       this.displayedColumns.push(column); // Adiciona a coluna
       this.displayedColumns.sort((a, b) => a.localeCompare(b)); // Ordena alfabeticamente
     }
+    console.log(this.displayedColumns);
   }
 
   checkboxesOptions() {
@@ -179,5 +184,13 @@ export class DynamicTableComponent {
       availableOptions.includes(el.id)
     );
     return currentValue.map((el: any) => el.unitName).join(', ');
+  }
+
+  isBoolean(element: any, column: any) {
+    return element[column] ? 'Sim' : 'Não';
+  }
+
+  isBooleanType(element: any, column: any) {
+    return typeof element[column] === 'boolean';
   }
 }

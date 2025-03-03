@@ -41,23 +41,25 @@ export class CreateProfessionalComponent implements OnInit {
     units: [],
   };
   columnTitle = {
+    active: 'Ativo',
     cpf: 'CPF',
     email: 'E-mail',
     id: 'Identificador',
     name: 'Nome',
-    profession: 'Profissão',
     professionalId: 'Regstro Profissional',
+    profession: 'Profissão',
     units: 'Unidade(s) de atendimento',
   };
   multiSelectColumns = ['units'];
 
   checkboxState: any = {
+    active: true,
     cpf: true,
     email: true,
     id: true,
     name: true,
-    profession: true,
     professionalId: true,
+    profession: true,
     units: true,
   };
 
@@ -77,31 +79,42 @@ export class CreateProfessionalComponent implements OnInit {
     this.unitsList = await this.services.getUnits();
   }
 
-  deleteEmitter(event: any) {}
+  deleteEmitter(event: any) {
+    this.services.disableProfessional(event.id).then(async () => {
+      await this.updateTableData();
+    });
+  }
 
-  editedRowsEmitter(event: any) {}
+  editedRowsEmitter(event: any) {
+    this.services.updateProfessionals(event).then(async () => {
+      await this.updateTableData();
+    });
+  }
 
   async selectedTabChange(event: any) {
     if (event.index === 1) {
-      this.professionalsList = await this.services.getProfessionalClasses();
-      this.unitsList = (await this.services.getUnits()).map((unit: any) => ({
-        ...unit,
-        name: unit.unitName,
-      }));
-
-      this.usersList = await (
-        await this.services.getUsers()
-      ).filter((el: any) => !!el.profession === true);
-
-      this.dynamicTableComponent.updateTableDataSource(this.usersList);
-      this.dynamicTableComponent.handleColumnOptions(
-        'profession',
-        this.professionalsList
-      );
-      this.dynamicTableComponent.handleColumnOptions('units', this.unitsList);
-      this.dynamicTableComponent.selectColumns['units'] = this.unitsList;
-      this.dynamicTableComponent.selectColumns['profession'] = this.unitsList;
-      this.dynamicTableComponent.isEditing = false;
+      await this.updateTableData();
     }
+  }
+
+  async updateTableData() {
+    this.professionalsList = await this.services.getProfessionalClasses();
+    this.unitsList = (await this.services.getUnits()).map((unit: any) => ({
+      ...unit,
+      name: unit.unitName,
+    }));
+
+    this.usersList = await (
+      await this.services.getUsers()
+    ).filter((el: any) => !!el.profession === true);
+    this.dynamicTableComponent.updateTableDataSource(this.usersList);
+    this.dynamicTableComponent.handleColumnOptions(
+      'profession',
+      this.professionalsList
+    );
+    this.dynamicTableComponent.handleColumnOptions('units', this.unitsList);
+    this.dynamicTableComponent.selectColumns['units'] = this.unitsList;
+    this.dynamicTableComponent.selectColumns['profession'] = this.unitsList;
+    this.dynamicTableComponent.isEditing = false;
   }
 }

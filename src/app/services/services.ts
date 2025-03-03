@@ -61,6 +61,8 @@ export class Services {
       }
       const hashedPassword = await bcrypt.hash(user.password, 10);
       user.password = hashedPassword;
+      user['role'] = 'professional';
+      user['active'] = true;
       await addDoc(usersCollection, user);
       return user;
     } catch (error) {
@@ -272,6 +274,39 @@ export class Services {
         'Erro ao buscar usuários. Contate o suporte.'
       );
       return [];
+    }
+  }
+
+  async disableProfessional(id: string) {
+    try {
+      const unitRef = doc(this.db, 'users', id);
+      await updateDoc(unitRef, { active: false });
+      Utils.showToast(this.snackBar, 'Profissional removido com sucesso');
+      return true;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao remover profissional. Contate o suporte.'
+      );
+      return false;
+    }
+  }
+
+  async updateProfessionals(units: any[]) {
+    try {
+      const updatePromises = units.map(async (unit) => {
+        const unitRef = doc(this.db, 'users', unit.id);
+        await updateDoc(unitRef, unit);
+      });
+
+      await Promise.all(updatePromises);
+      return true;
+    } catch (error) {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao atualizar unidades. Contate o suporte.'
+      );
+      return false;
     }
   }
 }

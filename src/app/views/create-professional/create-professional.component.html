@@ -1,7 +1,7 @@
 <div class="wrapper">
   <mat-tab-group (selectedTabChange)="selectedTabChange($event)">
     <mat-tab label="Criar profissional">
-      <div>
+      <div style="padding: 12px; box-sizing: border-box">
         <form
           (ngSubmit)="onSubmit(userForm)"
           #userForm="ngForm"
@@ -148,12 +148,13 @@
         [checkboxState]="checkboxState"
         [disabledColumn]="'id'"
         [displayedColumns]="[
+          'active',
           'cpf',
           'email',
           'id',
           'name',
-          'profession',
           'professionalId',
+          'profession',
           'units'
         ]"
         #dynamicTableComponent

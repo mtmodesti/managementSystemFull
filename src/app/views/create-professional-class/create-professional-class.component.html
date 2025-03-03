@@ -1,58 +1,55 @@
 <div class="wrapper">
-  <mat-tab-group
-    style="width: 100%"
-    (selectedIndexChange)="onTabChange($event)"
-  >
+  <mat-tab-group (selectedIndexChange)="onTabChange($event)">
     <mat-tab label="Criar classe profissional">
-      <form
-        (ngSubmit)="onSubmit(userForm)"
-        #userForm="ngForm"
-        class="user-form"
-      >
-        <mat-form-field appearance="outline" class="form-group">
-          <mat-label>Nome da classe</mat-label>
-          <input
-            matInput
-            type="text"
-            id="className"
-            name="className"
-            ngModel
-            required
-          />
-          <mat-error
-            *ngIf="
-              userForm.controls['className']?.invalid &&
-              userForm.controls['className']?.touched
-            "
-          >
-            Campo obrigatório
-          </mat-error>
-        </mat-form-field>
-
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="userForm.invalid"
+      <div class="formWrapper">
+        <form
+          (ngSubmit)="onSubmit(userForm)"
+          #userForm="ngForm"
+          class="user-form"
         >
-          Criar Classe
-        </button>
-      </form>
+          <mat-form-field appearance="outline" class="form-group">
+            <mat-label>Nome da classe</mat-label>
+            <input
+              matInput
+              type="text"
+              id="className"
+              name="className"
+              ngModel
+              required
+            />
+            <mat-error
+              *ngIf="
+                userForm.controls['className']?.invalid &&
+                userForm.controls['className']?.touched
+              "
+            >
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="userForm.invalid"
+          >
+            Criar Classe
+          </button>
+        </form>
+      </div>
     </mat-tab>
 
     <mat-tab label="Listar classes profissionais">
-      <div class="table-wrapper">
-        <app-dynamic-table
-          (deleteEmitter)="deleteRow($event)"
-          [tableHeader]="'Classes profissionais'"
-          [columnTitle]="columnTitle"
-          [checkboxState]="checkboxState"
-          [disabledColumn]="'id'"
-          [displayedColumns]="['name', 'id']"
-          (editedRowsEmitter)="editedRowsEmitter($event)"
-          #dynamicTableComponent
-        ></app-dynamic-table>
-      </div>
+      <app-dynamic-table
+        (deleteEmitter)="deleteRow($event)"
+        [tableHeader]="'Classes profissionais'"
+        [columnTitle]="columnTitle"
+        [checkboxState]="checkboxState"
+        [disabledColumn]="'id'"
+        [displayedColumns]="['name', 'id']"
+        (editedRowsEmitter)="editedRowsEmitter($event)"
+        #dynamicTableComponent
+      ></app-dynamic-table>
     </mat-tab>
   </mat-tab-group>
 </div>
