@@ -169,7 +169,6 @@ export class DynamicTableComponent {
       this.displayedColumns.push(column); // Adiciona a coluna
       this.displayedColumns.sort((a, b) => a.localeCompare(b)); // Ordena alfabeticamente
     }
-    console.log(this.displayedColumns);
   }
 
   checkboxesOptions() {

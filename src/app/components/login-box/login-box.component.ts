@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { Services } from '../../services/services';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Utils } from '../../utils/utils';
+import { RxjsService } from '../../services/rxjs-services';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -52,7 +53,8 @@ export class LoginBoxComponent {
   constructor(
     private router: Router,
     private services: Services,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private rxjsService: RxjsService
   ) {}
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -73,6 +75,7 @@ export class LoginBoxComponent {
       .login(user.email || '', user.password || '')
       .then((user) => {
         if (user) {
+          this.rxjsService.setUser(user);
           this.router.navigate(['/dashboard']);
           Utils.showToast(this.snackBar, 'Login realizado com sucesso!');
         } else {

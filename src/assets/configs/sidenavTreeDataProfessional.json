@@ -6,7 +6,7 @@
       "icon": "dashboard"
     },
     {
-      "name": "Administrativo",
+      "name": "Painel Técnico",
       "children": [
         { "name": "Unidades", "icon": "domain", "url": "unity" },
         { "name": "Profissionais", "icon": "group", "url": "professional" },
