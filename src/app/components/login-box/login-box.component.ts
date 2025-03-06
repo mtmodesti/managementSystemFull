@@ -18,6 +18,9 @@ import { Services } from '../../services/services';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Utils } from '../../utils/utils';
 import { RxjsService } from '../../services/rxjs-services';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -43,7 +46,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatButtonModule,
     CommonModule,
     MatCheckboxModule,
-
+    MatDialogModule,
     MatSnackBarModule,
   ],
   templateUrl: './login-box.component.html',
@@ -54,7 +57,8 @@ export class LoginBoxComponent {
     private router: Router,
     private services: Services,
     private snackBar: MatSnackBar,
-    private rxjsService: RxjsService
+    private rxjsService: RxjsService,
+    private dialog: MatDialog
   ) {}
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -68,6 +72,7 @@ export class LoginBoxComponent {
   handleLogin() {
     const email = this.emailFormControl.value;
     const password = this.passwordFormControl.value;
+    const isDefault = password === 'default';
 
     const user = { email, password };
 
@@ -76,8 +81,27 @@ export class LoginBoxComponent {
       .then((user) => {
         if (user) {
           this.rxjsService.setUser(user);
-          this.router.navigate(['/dashboard']);
-          Utils.showToast(this.snackBar, 'Login realizado com sucesso!');
+
+          if (isDefault) {
+            // Abrir modal para troca de senha
+            const dialogRef = this.dialog.open(ChangePasswordComponent, {
+              width: '400px',
+              disableClose: true, // Impede fechar sem definir nova senha
+            });
+
+            dialogRef.afterClosed().subscribe((newPassword) => {
+              if (newPassword) {
+                this.services
+                  .updatePassword(user.email, newPassword)
+                  .then(() => {
+                    this.router.navigate(['/dashboard']);
+                  });
+              }
+            });
+          } else {
+            this.router.navigate(['/dashboard']);
+            Utils.showToast(this.snackBar, 'Login realizado com sucesso!');
+          }
         } else {
           Utils.showToast(
             this.snackBar,
@@ -85,7 +109,7 @@ export class LoginBoxComponent {
           );
         }
       })
-      .catch((error) => {
+      .catch(() => {
         Utils.showToast(this.snackBar, 'Erro ao fazer login!');
       });
   }

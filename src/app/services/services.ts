@@ -309,4 +309,34 @@ export class Services {
       return false;
     }
   }
+
+  async updatePassword(email: string, newPassword: string): Promise<boolean> {
+    try {
+      const usersCollection = collection(this.db, 'users');
+      const usersSnapshot = await getDocs(usersCollection);
+      const userDoc = usersSnapshot.docs.find(
+        (doc: any) => doc.data().email === email
+      );
+
+      if (!userDoc) {
+        return false; // Usuário não encontrado
+      }
+
+      // Gerar hash da nova senha
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+      // Atualizar a senha no Firebase
+      const userRef = doc(this.db, 'users', userDoc.id);
+      await updateDoc(userRef, { password: hashedPassword });
+      Utils.showToast(this.snackBar, 'Senha alterada com sucesso!');
+      return true;
+    } catch {
+      Utils.showToast(
+        this.snackBar,
+        'Erro ao atualizar a senha. Contate o suporte.'
+      );
+      return false;
+    }
+  }
 }
